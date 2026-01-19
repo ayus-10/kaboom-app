@@ -3,14 +3,14 @@
 import { api } from '@/lib/api'
 import { useEffect, useState } from 'react'
 
-export function useAuthCheck() {
+export const useAuthCheck = () => {
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
     let cancelled = false
 
-    async function checkAuth() {
+    const checkAuth = async () => {
       try {
         await api.get('/user/me')
         if (!cancelled) setIsAuthenticated(true)

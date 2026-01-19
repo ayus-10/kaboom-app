@@ -3,7 +3,7 @@ import { toApiError } from '@/lib/api-error'
 import { Widget } from '@/types/widget'
 import { useQuery } from '@tanstack/react-query'
 
-export function useWidgets(projectId: string) {
+export const useWidgets = (projectId: string) => {
   return useQuery<Widget[]>({
     queryKey: ['widgets', projectId],
     enabled: !!projectId,
@@ -18,7 +18,7 @@ export function useWidgets(projectId: string) {
   })
 }
 
-export function useWidget(projectId: string, widgetId: string) {
+export const useWidget = (projectId: string, widgetId: string) => {
   return useQuery<Widget>({
     queryKey: ['widget', projectId, widgetId],
     enabled: !!widgetId,

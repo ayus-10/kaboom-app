@@ -4,7 +4,7 @@ import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export const OnboardingPageBody: React.FC = () => {
+export const RedirectToCorrectStage: React.FC = () => {
   const stage = useOnboardingStageStore(state => state.stage)
 
   const router = useRouter()
@@ -19,7 +19,9 @@ export const OnboardingPageBody: React.FC = () => {
 
     const targetRoute = stageToRoute[stage]
 
-    if (pathname !== targetRoute) {
+    const normalize = (p: string) => p.replace(/\/$/, '')
+
+    if (normalize(pathname) !== normalize(targetRoute)) {
       router.replace(targetRoute)
     }
   }, [stage, pathname, router])

@@ -8,7 +8,7 @@ interface CreateProjectInput {
   description?: string
 }
 
-export function useCreateProject() {
+export const useCreateProject = () => {
   return useMutation<Project, Error, CreateProjectInput>({
     mutationFn: async data => {
       try {
@@ -24,7 +24,7 @@ export function useCreateProject() {
   })
 }
 
-export function useUpdateProject(projectId: string) {
+export const useUpdateProject = (projectId: string) => {
   return useMutation<Project, Error, Partial<Pick<Project, 'title' | 'description'>>>({
     mutationFn: async data => {
       try {
@@ -40,7 +40,7 @@ export function useUpdateProject(projectId: string) {
   })
 }
 
-export function useDeleteProject() {
+export const useDeleteProject = () => {
   return useMutation<void, Error, string>({
     mutationFn: async projectId => {
       try {

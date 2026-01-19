@@ -3,7 +3,7 @@ import { toApiError } from '@/lib/api-error'
 import { Project } from '@/types/project'
 import { useQuery } from '@tanstack/react-query'
 
-export function useProjects() {
+export const useProjects = () => {
   return useQuery<Project[]>({
     queryKey: ['projects'],
     queryFn: async () => {
@@ -17,7 +17,7 @@ export function useProjects() {
   })
 }
 
-export function useProject(projectId: string) {
+export const useProject = (projectId: string) => {
   return useQuery<Project>({
     queryKey: ['project', projectId],
     enabled: !!projectId,

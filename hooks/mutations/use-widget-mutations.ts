@@ -9,7 +9,7 @@ interface CreateWidgetInput {
   site_url: string
 }
 
-export function useCreateWidget(projectId: string | null) {
+export const useCreateWidget = (projectId: string | null) => {
   return useMutation<Widget, Error, CreateWidgetInput>({
     mutationFn: async data => {
       try {
