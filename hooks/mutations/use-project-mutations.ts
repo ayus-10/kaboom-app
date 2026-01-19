@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import { ApiError, toApiError } from '@/lib/api-error'
+import { handleApiError, toApiError } from '@/lib/api-error'
 import { Project } from '@/types/project'
 import { useMutation } from '@tanstack/react-query'
 
@@ -19,9 +19,7 @@ export function useCreateProject() {
       }
     },
     onError: err => {
-      if (err instanceof ApiError) {
-        alert(err.message)
-      }
+      handleApiError(err)
     },
   })
 }
@@ -37,9 +35,7 @@ export function useUpdateProject(projectId: string) {
       }
     },
     onError: err => {
-      if (err instanceof ApiError) {
-        alert(err.message)
-      }
+      handleApiError(err)
     },
   })
 }
@@ -54,9 +50,7 @@ export function useDeleteProject() {
       }
     },
     onError: err => {
-      if (err instanceof ApiError) {
-        alert(err.message)
-      }
+      handleApiError(err)
     },
   })
 }

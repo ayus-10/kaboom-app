@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import { ApiError, toApiError } from '@/lib/api-error'
+import { handleApiError, toApiError } from '@/lib/api-error'
 import { Widget } from '@/types/widget'
 import { useMutation } from '@tanstack/react-query'
 
@@ -26,9 +26,7 @@ export function useCreateWidget(projectId: string | null) {
       }
     },
     onError: err => {
-      if (err instanceof ApiError) {
-        alert(err.message)
-      }
+      handleApiError(err)
     },
   })
 }
