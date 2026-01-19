@@ -32,9 +32,9 @@ function processQueue(error: unknown, token?: string) {
   failedQueue = []
 }
 
-async function refreshAccessToken() {
+async function rotateAccessToken() {
   const res = await axios.post<{ access_token?: string }>(
-    `${API_BASE_URL}/auth/refresh`,
+    `${API_BASE_URL}/auth/rotate`,
     undefined,
     { withCredentials: true }
   )
@@ -75,7 +75,7 @@ api.interceptors.response.use(
     isRefreshing = true
 
     try {
-      const newToken = await refreshAccessToken()
+      const newToken = await rotateAccessToken()
       processQueue(null, newToken)
 
       originalRequest.headers.Authorization = `Bearer ${newToken}`

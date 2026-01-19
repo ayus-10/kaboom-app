@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import { handleApiError } from '@/lib/api-error'
+import { toApiError } from '@/lib/api-error'
 import { Widget } from '@/types/widget'
 import { useQuery } from '@tanstack/react-query'
 
@@ -12,7 +12,7 @@ export function useWidgets(projectId: string) {
         const res = await api.get<Widget[]>(`/project/${projectId}/widget`)
         return res.data
       } catch (err) {
-        handleApiError(err)
+        throw toApiError(err)
       }
     },
   })
@@ -27,7 +27,7 @@ export function useWidget(projectId: string, widgetId: string) {
         const res = await api.get<Widget>(`/project/${projectId}/widget/${widgetId}`)
         return res.data
       } catch (err) {
-        handleApiError(err)
+        throw toApiError(err)
       }
     },
   })

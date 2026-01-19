@@ -3,8 +3,10 @@
 import { useCreateProject } from '@/hooks/mutations/use-project-mutations'
 import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
 import { useOnboardingStore } from '@/hooks/use-onboarding-store'
+import { projectFormSchema } from '@/schema/project-form-schema'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
+import { ZodError } from 'zod'
 
 export const ProjectForm: React.FC = () => {
   const [name, setName] = useState('')
@@ -17,12 +19,18 @@ export const ProjectForm: React.FC = () => {
 
   const router = useRouter()
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
     try {
-      const project = await createProject.mutateAsync({
+      const projectFormData = {
         title: name,
         description,
-      })
+      }
+
+      projectFormSchema.parse(projectFormData)
+
+      const project = await createProject.mutateAsync(projectFormData)
 
       setOnboardingStage(OnboardingStage.WIDGET)
 
@@ -30,7 +38,11 @@ export const ProjectForm: React.FC = () => {
 
       router.push('/dashboard/onboarding/widget')
     } catch (err) {
-      console.error(err)
+      if (err instanceof ZodError) {
+        alert(err.issues[0].message)
+      } else {
+        console.error(err)
+      }
     }
   }
 

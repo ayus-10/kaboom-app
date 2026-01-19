@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import { handleApiError } from '@/lib/api-error'
+import { toApiError } from '@/lib/api-error'
 import { Project } from '@/types/project'
 import { useQuery } from '@tanstack/react-query'
 
@@ -11,7 +11,7 @@ export function useProjects() {
         const res = await api.get<Project[]>('/project')
         return res.data
       } catch (err) {
-        handleApiError(err)
+        throw toApiError(err)
       }
     },
   })
@@ -26,7 +26,7 @@ export function useProject(projectId: string) {
         const res = await api.get<Project>(`/project/${projectId}`)
         return res.data
       } catch (err) {
-        handleApiError(err)
+        throw toApiError(err)
       }
     },
   })

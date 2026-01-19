@@ -2,14 +2,14 @@ import { create } from 'zustand'
 
 interface OnboardingStore {
   projectId: string | null
-  widgetSlug: string | null
+  widgetId: string | null
   setProjectId: (id: string) => void
-  setWidgetSlug: (slug: string) => void
+  setWidgetId: (id: string) => void
 }
 
 export const useOnboardingStore = create<OnboardingStore>(set => ({
   projectId: null,
-  widgetSlug: null,
+  widgetId: null,
   setProjectId: id => set({ projectId: id }),
-  setWidgetSlug: slug => set({ widgetSlug: slug }),
+  setWidgetId: id => set({ widgetId: id }),
 }))

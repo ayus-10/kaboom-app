@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 
 export const EmbedPageBody: React.FC = () => {
-  const widgetSlug = useOnboardingStore(state => state.widgetSlug)
+  const widgetId = useOnboardingStore(state => state.widgetId)
   const router = useRouter()
 
-  const embedUrl = `${API_BASE_URL}/chat/${widgetSlug}`
+  const embedUrl = `${API_BASE_URL}/chat/${widgetId}`
 
   const goToDashboard = () => {
     router.push('/dashboard')

@@ -9,12 +9,10 @@ export class ApiError extends Error {
   }
 }
 
-export function handleApiError(error: unknown): never {
+export function toApiError(error: unknown): ApiError {
   if (axios.isAxiosError(error)) {
     const message = error.response?.data?.detail || 'Something went wrong'
-
-    throw new ApiError(message, error.response?.status)
+    return new ApiError(message, error.response?.status)
   }
-
-  throw new ApiError('Unexpected error')
+  return new ApiError('Unexpected error')
 }

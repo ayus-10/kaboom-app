@@ -3,8 +3,10 @@
 import { useCreateWidget } from '@/hooks/mutations/use-widget-mutations'
 import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
 import { useOnboardingStore } from '@/hooks/use-onboarding-store'
+import { widgetFormSchema } from '@/schema/widget-form-schema'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
+import { ZodError } from 'zod'
 
 export const WidgetForm: React.FC = () => {
   const [name, setName] = useState('')
@@ -12,29 +14,39 @@ export const WidgetForm: React.FC = () => {
   const [siteUrl, setSiteUrl] = useState('')
 
   const onboardingProjectId = useOnboardingStore(state => state.projectId)
-  const setOnboardingWidgetSlug = useOnboardingStore(state => state.setWidgetSlug)
+  const setOnboardingWidgetId = useOnboardingStore(state => state.setWidgetId)
 
-  const createWidget = useCreateWidget(onboardingProjectId ?? '')
+  const createWidget = useCreateWidget(onboardingProjectId)
 
   const setOnboardingStage = useOnboardingStageStore(state => state.setStage)
 
   const router = useRouter()
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
     try {
-      const widget = await createWidget.mutateAsync({
+      const widgetFormData = {
         title: name,
         description,
         site_url: siteUrl,
-      })
+      }
+
+      widgetFormSchema.parse(widgetFormData)
+
+      const widget = await createWidget.mutateAsync(widgetFormData)
 
       setOnboardingStage(OnboardingStage.EMBED)
 
-      setOnboardingWidgetSlug(widget.slug)
+      setOnboardingWidgetId(widget.id)
 
       router.push('/dashboard/onboarding/embed')
     } catch (err) {
-      console.error(err)
+      if (err instanceof ZodError) {
+        alert(err.issues[0].message)
+      } else {
+        console.error(err)
+      }
     }
   }
 
