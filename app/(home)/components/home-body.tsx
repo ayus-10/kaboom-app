@@ -49,19 +49,50 @@ export const HomeBody: React.FC = () => {
       <section>
         <div className="mx-auto max-w-7xl px-4 py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <h3 className="text-2xl font-semibold tracking-tight">
+            <h3 className="text-3xl font-semibold tracking-tight">
               Designed for calm, human conversations
             </h3>
-            <p className="mt-4 text-gray-600">
-              Kaboom is used by small teams who value clarity, empathy, and actually listening to
-              users — not juggling ten dashboards at once.
+            <p className="mt-4 text-lg text-gray-600">
+              Kaboom is built for small teams who value clarity, empathy, and actually listening to
+              users - not juggling ten dashboards at once.
             </p>
           </div>
 
-          <div className="mt-16 grid gap-6 md:grid-cols-3">
-            <ImageCard src="/team-chat.jpeg" alt="Team collaborating calmly" />
-            <ImageCard src="/support-desk.jpeg" alt="Customer support workspace" />
-            <ImageCard src="/focused-work.jpeg" alt="Focused work environment" />
+          <div className="mt-16 grid gap-8 md:grid-cols-3">
+            <div className="group relative overflow-hidden rounded-xl">
+              <ImageCard src="/team-chat.jpeg" alt="Team collaborating calmly" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <h4 className="font-semibold text-lg">Sync without the noise</h4>
+                <p className="mt-2 text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+                  Keep your team aligned with threaded discussions that prioritize depth over speed.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative overflow-hidden rounded-xl">
+              <ImageCard src="/support-desk.jpeg" alt="Customer support workspace" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <h4 className="font-semibold text-lg">Human-centric support</h4>
+                <p className="mt-2 text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+                  Ditch the ticket numbers. Treat every interaction like a conversation, not a
+                  transaction.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative overflow-hidden rounded-xl">
+              <ImageCard src="/focused-work.jpeg" alt="Focused work environment" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <h4 className="font-semibold text-lg">Deep work by default</h4>
+                <p className="mt-2 text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+                  Minimalist interfaces designed to fade into the background so you can stay in
+                  flow.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
