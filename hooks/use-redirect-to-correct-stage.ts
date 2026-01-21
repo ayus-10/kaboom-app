@@ -4,7 +4,7 @@ import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export const RedirectToCorrectStage: React.FC = () => {
+export const useRedirectToCorrectStage = () => {
   const stage = useOnboardingStageStore(state => state.stage)
 
   const router = useRouter()
@@ -25,6 +25,4 @@ export const RedirectToCorrectStage: React.FC = () => {
       router.replace(targetRoute)
     }
   }, [stage, pathname, router])
-
-  return null
 }
