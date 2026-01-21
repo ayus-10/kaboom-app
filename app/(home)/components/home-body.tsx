@@ -20,7 +20,7 @@ export const HomeBody: React.FC = () => {
             </h1>
 
             <p className="mt-6 text-lg text-gray-600">
-              Kaboom helps you chat with your website visitors in real time — simple setup,
+              Kaboom helps you chat with your website visitors in real time with simple setup,
               thoughtful design, and zero clutter.
             </p>
 
@@ -54,7 +54,7 @@ export const HomeBody: React.FC = () => {
             </h3>
             <p className="mt-4 text-lg text-gray-600">
               Kaboom is built for small teams who value clarity, empathy, and actually listening to
-              users - not juggling ten dashboards at once.
+              users, not juggling ten dashboards at once.
             </p>
           </div>
 
