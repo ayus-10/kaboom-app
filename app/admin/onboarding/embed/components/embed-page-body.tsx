@@ -12,11 +12,11 @@ export const EmbedPageBody: React.FC = () => {
   const embedUrl = `${API_BASE_URL}/chat/${widgetId}`
 
   const goToDashboard = () => {
-    router.push('/dashboard')
+    router.push('/admin')
   }
 
   useEffect(() => {
-    if (!widgetId) router.push('/dashboard')
+    if (!widgetId) router.push('/admin')
   }, [widgetId, router])
 
   if (!widgetId) return null

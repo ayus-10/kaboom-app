@@ -1,24 +1,21 @@
 'use client'
 
-import { useCreateWidget } from '@/hooks/mutations/use-widget-mutations'
+import { useCreateProject } from '@/hooks/mutations/use-project-mutations'
 import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
 import { useOnboardingStore } from '@/hooks/use-onboarding-store'
-import { widgetFormSchema } from '@/schema/widget-form-schema'
+import { projectFormSchema } from '@/schema/project-form-schema'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 import { ZodError } from 'zod'
 
-export const WidgetForm: React.FC = () => {
+export const ProjectForm: React.FC = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [siteUrl, setSiteUrl] = useState('')
 
-  const onboardingProjectId = useOnboardingStore(state => state.projectId)
-  const setOnboardingWidgetId = useOnboardingStore(state => state.setWidgetId)
-
-  const createWidget = useCreateWidget(onboardingProjectId)
+  const createProject = useCreateProject()
 
   const setOnboardingStage = useOnboardingStageStore(state => state.setStage)
+  const setOnboardingProjectId = useOnboardingStore(state => state.setProjectId)
 
   const router = useRouter()
 
@@ -26,21 +23,20 @@ export const WidgetForm: React.FC = () => {
     e.preventDefault()
 
     try {
-      const widgetFormData = {
+      const projectFormData = {
         title: name,
         description,
-        site_url: siteUrl,
       }
 
-      widgetFormSchema.parse(widgetFormData)
+      projectFormSchema.parse(projectFormData)
 
-      const widget = await createWidget.mutateAsync(widgetFormData)
+      const project = await createProject.mutateAsync(projectFormData)
 
-      setOnboardingStage(OnboardingStage.EMBED)
+      setOnboardingStage(OnboardingStage.WIDGET)
 
-      setOnboardingWidgetId(widget.id)
+      setOnboardingProjectId(project.id)
 
-      router.push('/dashboard/onboarding/embed')
+      router.push('/admin/onboarding/widget')
     } catch (err) {
       if (err instanceof ZodError) {
         alert(err.issues[0].message)
@@ -57,7 +53,7 @@ export const WidgetForm: React.FC = () => {
     >
       <div>
         <label className="block text-sm font-medium text-gray-800" htmlFor="name">
-          Widget name
+          Project name
         </label>
 
         <input
@@ -65,7 +61,7 @@ export const WidgetForm: React.FC = () => {
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
-          placeholder="Homepage Widget"
+          placeholder="Customer support chat"
           className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
         />
       </div>
@@ -80,23 +76,8 @@ export const WidgetForm: React.FC = () => {
           rows={3}
           value={description}
           onChange={e => setDescription(e.target.value)}
-          placeholder="A chat widget to place in my homepage"
+          placeholder="A chat widget to talk with website visitors in real time"
           className="mt-2 w-full resize-none rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-800" htmlFor="name">
-          Site URL
-        </label>
-
-        <input
-          id="siteUrl"
-          type="text"
-          value={siteUrl}
-          onChange={e => setSiteUrl(e.target.value)}
-          placeholder="example.com"
-          className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
         />
       </div>
 
@@ -104,7 +85,7 @@ export const WidgetForm: React.FC = () => {
         type="submit"
         className="w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-200"
       >
-        {createWidget.isPending ? 'Saving...' : 'Continue'}
+        {createProject.isPending ? 'Saving...' : 'Continue'}
       </button>
     </form>
   )

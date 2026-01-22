@@ -37,7 +37,7 @@ export const HomeNav: React.FC = () => {
           </Link>
 
           <Link
-            href="/dashboard"
+            href="/admin"
             className="rounded-full bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500"
           >
             Get started
@@ -80,7 +80,7 @@ export const HomeNav: React.FC = () => {
               </Link>
 
               <Link
-                href="/dashboard"
+                href="/admin"
                 onClick={() => setOpen(false)}
                 className="rounded-full bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white"
               >

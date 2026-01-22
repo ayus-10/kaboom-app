@@ -4,7 +4,7 @@ import { useUser } from '@/hooks/queries/use-user'
 import { API_BASE_URL } from '@/lib/constants'
 import { useEffect } from 'react'
 
-export function DashboardGuard({ children }: { children: React.ReactNode }) {
+export function AdminGuard({ children }: { children: React.ReactNode }) {
   const { isLoading, isSuccess: isAuthenticated } = useUser()
 
   useEffect(() => {

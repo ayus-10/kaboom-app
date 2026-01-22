@@ -20,7 +20,7 @@ export default function OAuthCallbackPage() {
 
     window.history.replaceState(null, '', '/oauth/callback')
 
-    router.replace('/dashboard/onboarding')
+    router.replace('/admin/onboarding')
   }, [router])
 
   return (
