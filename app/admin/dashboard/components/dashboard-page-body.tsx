@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export const AdminPageBody: React.FC = () => {
+export const DashboardPageBody: React.FC = () => {
   const router = useRouter()
 
   useEffect(() => {

@@ -46,7 +46,7 @@ export const WidgetForm: React.FC = () => {
       router.push('/admin/onboarding/embed')
     } catch (err) {
       if (err instanceof ZodError) {
-        alert(err.issues[0].message)
+        toast.error(err.issues[0].message)
       } else {
         console.error(err)
       }
