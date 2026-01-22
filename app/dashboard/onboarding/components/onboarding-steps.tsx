@@ -1,9 +1,12 @@
 'use client'
 
 import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
+import { useRedirectToCorrectStage } from '@/hooks/use-redirect-to-correct-stage'
 
 export const OnboardingSteps: React.FC = () => {
   const onboardingStage = useOnboardingStageStore(state => state.stage)
+
+  useRedirectToCorrectStage()
 
   return (
     <div>

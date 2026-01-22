@@ -1,21 +1,19 @@
 'use client'
 
-import { useAuthCheck } from '@/hooks/use-auth-check'
+import { useUser } from '@/hooks/queries/use-user'
 import { API_BASE_URL } from '@/lib/constants'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export function DashboardGuard({ children }: { children: React.ReactNode }) {
-  const { loading, isAuthenticated } = useAuthCheck()
-  const router = useRouter()
+  const { isLoading, isSuccess: isAuthenticated } = useUser()
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.replace(`${API_BASE_URL}/auth/google`)
+    if (!isLoading && !isAuthenticated) {
+      window.location.href = `${API_BASE_URL}/auth/google`
     }
-  }, [loading, isAuthenticated, router])
+  }, [isLoading, isAuthenticated])
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center text-sm text-gray-500">
         Checking session…

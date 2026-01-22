@@ -3,7 +3,7 @@
 import { useOnboardingStore } from '@/hooks/use-onboarding-store'
 import { API_BASE_URL } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export const EmbedPageBody: React.FC = () => {
   const widgetId = useOnboardingStore(state => state.widgetId)
@@ -14,6 +14,12 @@ export const EmbedPageBody: React.FC = () => {
   const goToDashboard = () => {
     router.push('/dashboard')
   }
+
+  useEffect(() => {
+    if (!widgetId) router.push('/dashboard')
+  }, [widgetId, router])
+
+  if (!widgetId) return null
 
   return (
     <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-sm space-y-6">
