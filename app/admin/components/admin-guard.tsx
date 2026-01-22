@@ -14,11 +14,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
   }, [isLoading, isAuthenticated])
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center text-sm text-gray-500">
-        Checking session…
-      </div>
-    )
+    return <div className="flex h-screen items-center justify-center">Checking session…</div>
   }
 
   if (!isAuthenticated) {
