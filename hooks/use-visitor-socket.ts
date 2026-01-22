@@ -2,7 +2,7 @@ import { connectVisitorSocket } from '@/lib/visitor-socket'
 import { VisitorEventType } from '@/types/ws-events'
 import { useEffect, useRef, useState } from 'react'
 
-export function useVisitorSocket() {
+export const useVisitorSocket = () => {
   const socketRef = useRef<WebSocket | null>(null)
 
   const [visitorId, setVisitorId] = useState<string | null>(null)

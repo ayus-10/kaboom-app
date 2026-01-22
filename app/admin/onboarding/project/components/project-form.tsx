@@ -6,6 +6,7 @@ import { useOnboardingStore } from '@/hooks/use-onboarding-store'
 import { projectFormSchema } from '@/schema/project-form-schema'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 import { ZodError } from 'zod'
 
 export const ProjectForm: React.FC = () => {
@@ -35,6 +36,8 @@ export const ProjectForm: React.FC = () => {
       setOnboardingStage(OnboardingStage.WIDGET)
 
       setOnboardingProjectId(project.id)
+
+      toast.success('New project created')
 
       router.push('/admin/onboarding/widget')
     } catch (err) {

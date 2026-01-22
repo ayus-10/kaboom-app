@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'sonner'
 
 export class ApiError extends Error {
   status?: number
@@ -19,7 +20,8 @@ export const toApiError = (error: unknown) => {
 
 export const handleApiError = (err: Error) => {
   if (err instanceof ApiError) {
-    alert(err.message)
+    toast.error(err.message)
+  } else {
+    toast.error('An unexpected error occurred')
   }
-  alert('An unexpected error occurred')
 }
