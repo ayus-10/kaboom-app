@@ -7,7 +7,6 @@ export function useVisitorSocket() {
 
   const [visitorId, setVisitorId] = useState<string | null>(null)
   const [conversationId, setConversationId] = useState<string | null>(null)
-  const [connected, setConnected] = useState(false)
 
   useEffect(() => {
     socketRef.current = connectVisitorSocket(event => {
@@ -30,17 +29,13 @@ export function useVisitorSocket() {
       }
     })
 
-    setConnected(true)
-
     return () => {
       socketRef.current?.close()
     }
   }, [])
 
   return {
-    socket: socketRef.current,
     visitorId,
     conversationId,
-    connected,
   }
 }
