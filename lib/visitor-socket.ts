@@ -28,13 +28,6 @@ export const connectVisitorSocket = (onMessage: (event: VisitorEvent) => void) =
     }
   }
 
-  // reconnect
-  socket.onclose = () => {
-    window.setTimeout(() => {
-      connectVisitorSocket(onMessage)
-    }, 1500)
-  }
-
   socket.onerror = () => {
     socket.close()
   }

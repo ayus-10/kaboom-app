@@ -6,7 +6,7 @@ export const useActivePage = () => {
   if (pathname.includes('/project')) return 'project'
   if (pathname.includes('/widget')) return 'widget'
   if (pathname.includes('/chat')) return 'chat'
-  if (pathname.includes('/request')) return 'request'
+  if (pathname.includes('/chat-requests')) return 'chat-requests'
   if (pathname.includes('/account')) return 'account'
 
   return null

@@ -26,7 +26,7 @@ export const MainSidebar: React.FC = () => {
       title: 'Existing Chats',
     },
     {
-      path: 'requests',
+      path: 'chat-requests',
       title: 'Chat Requests',
     },
   ]

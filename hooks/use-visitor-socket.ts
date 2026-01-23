@@ -20,9 +20,6 @@ export const useVisitorSocket = () => {
           setConversationId(event.payload.pending_conversation_id)
           break
 
-        case VisitorEventType.PONG:
-          break
-
         case VisitorEventType.ERROR:
           console.log(event.payload.message)
           break
