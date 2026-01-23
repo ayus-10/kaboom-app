@@ -2,7 +2,7 @@ import { connectVisitorSocket } from '@/lib/visitor-socket'
 import { VisitorEventType } from '@/types/ws-events'
 import { useEffect, useRef, useState } from 'react'
 
-export function useVisitorSocket() {
+export const useVisitorSocket = () => {
   const socketRef = useRef<WebSocket | null>(null)
 
   const [visitorId, setVisitorId] = useState<string | null>(null)
@@ -18,9 +18,6 @@ export function useVisitorSocket() {
         case VisitorEventType.PENDING_CONVERSATION_CREATED:
         case VisitorEventType.PENDING_CONVERSATION_EXISTS:
           setConversationId(event.payload.pending_conversation_id)
-          break
-
-        case VisitorEventType.PONG:
           break
 
         case VisitorEventType.ERROR:

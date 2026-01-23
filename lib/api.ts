@@ -24,7 +24,7 @@ let failedQueue: {
   reject: (error: unknown) => void
 }[] = []
 
-function processQueue(error: unknown, token?: string) {
+const processQueue = (error: unknown, token?: string) => {
   failedQueue.forEach(p => {
     if (token) p.resolve(token)
     else p.reject(error)
@@ -32,7 +32,7 @@ function processQueue(error: unknown, token?: string) {
   failedQueue = []
 }
 
-async function rotateAccessToken() {
+const rotateAccessToken = async () => {
   const res = await axios.post<{ access_token?: string }>(
     `${API_BASE_URL}/auth/rotate`,
     undefined,
@@ -84,10 +84,6 @@ api.interceptors.response.use(
       processQueue(err, undefined)
 
       localStorage.removeItem('access_token')
-
-      if (typeof window !== 'undefined') {
-        window.location.href = '/'
-      }
 
       return Promise.reject(err)
     } finally {

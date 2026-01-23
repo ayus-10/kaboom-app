@@ -26,7 +26,7 @@ export const HomeBody: React.FC = () => {
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
-                href="/dashboard"
+                href="/admin"
                 className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500"
               >
                 Get started
@@ -136,7 +136,7 @@ export const HomeBody: React.FC = () => {
           </p>
 
           <Link
-            href="/dashboard"
+            href="/admin"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-indigo-600 transition hover:bg-indigo-50"
           >
             Create your first widget

@@ -1,7 +1,7 @@
 'use client'
 
 import { useOnboardingStore } from '@/hooks/use-onboarding-store'
-import { API_BASE_URL } from '@/lib/constants'
+import { APP_URL } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
@@ -9,21 +9,21 @@ export const EmbedPageBody: React.FC = () => {
   const widgetId = useOnboardingStore(state => state.widgetId)
   const router = useRouter()
 
-  const embedUrl = `${API_BASE_URL}/chat/${widgetId}`
+  const embedUrl = `${APP_URL}/chat/${widgetId}`
 
   const goToDashboard = () => {
-    router.push('/dashboard')
+    router.push('/admin')
   }
 
   useEffect(() => {
-    if (!widgetId) router.push('/dashboard')
+    if (!widgetId) router.push('/admin')
   }, [widgetId, router])
 
   if (!widgetId) return null
 
   return (
     <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-sm space-y-6">
-      <h1 className="text-2xl font-semibold text-gray-900">Widget Created Successfully!</h1>
+      <h1 className="text-2xl font-semibold text-gray-900">Embed your Widget</h1>
 
       <p className="text-gray-700">
         Your widget is ready. You can embed it using the following URL:

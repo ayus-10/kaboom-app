@@ -12,9 +12,9 @@ export const useRedirectToCorrectStage = () => {
 
   useEffect(() => {
     const stageToRoute: Record<OnboardingStage, string> = {
-      [OnboardingStage.PROJECT]: '/dashboard/onboarding/project',
-      [OnboardingStage.WIDGET]: '/dashboard/onboarding/widget',
-      [OnboardingStage.EMBED]: '/dashboard/onboarding/embed',
+      [OnboardingStage.PROJECT]: '/admin/onboarding/project',
+      [OnboardingStage.WIDGET]: '/admin/onboarding/widget',
+      [OnboardingStage.EMBED]: '/admin/onboarding/embed',
     }
 
     const targetRoute = stageToRoute[stage]

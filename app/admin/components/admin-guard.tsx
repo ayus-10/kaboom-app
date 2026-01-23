@@ -4,7 +4,7 @@ import { useUser } from '@/hooks/queries/use-user'
 import { API_BASE_URL } from '@/lib/constants'
 import { useEffect } from 'react'
 
-export function DashboardGuard({ children }: { children: React.ReactNode }) {
+export const AdminGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isLoading, isSuccess: isAuthenticated } = useUser()
 
   useEffect(() => {
@@ -14,11 +14,7 @@ export function DashboardGuard({ children }: { children: React.ReactNode }) {
   }, [isLoading, isAuthenticated])
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center text-sm text-gray-500">
-        Checking session…
-      </div>
-    )
+    return <div className="flex h-screen items-center justify-center">Checking session…</div>
   }
 
   if (!isAuthenticated) {

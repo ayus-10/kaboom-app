@@ -6,6 +6,7 @@ import { useOnboardingStore } from '@/hooks/use-onboarding-store'
 import { widgetFormSchema } from '@/schema/widget-form-schema'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 import { ZodError } from 'zod'
 
 export const WidgetForm: React.FC = () => {
@@ -40,10 +41,12 @@ export const WidgetForm: React.FC = () => {
 
       setOnboardingWidgetId(widget.id)
 
-      router.push('/dashboard/onboarding/embed')
+      toast.success('New widget created')
+
+      router.push('/admin/onboarding/embed')
     } catch (err) {
       if (err instanceof ZodError) {
-        alert(err.issues[0].message)
+        toast.error(err.issues[0].message)
       } else {
         console.error(err)
       }
