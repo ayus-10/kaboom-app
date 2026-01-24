@@ -2,15 +2,22 @@
 
 import { useUser } from '@/hooks/queries/use-user'
 import { useActivePage } from '@/hooks/use-active-page'
+import { api } from '@/lib/api'
 import { API_BASE_URL } from '@/lib/constants'
+import { useQueryClient } from '@tanstack/react-query'
 import { ChevronDown, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 export const MainSidebar: React.FC = () => {
   const { data: user } = useUser()
 
   const activePage = useActivePage()
+
+  const queryCliet = useQueryClient()
+  const router = useRouter()
 
   const mainPages = [
     {
@@ -32,8 +39,17 @@ export const MainSidebar: React.FC = () => {
   ]
 
   const handleLogout = () => {
-    localStorage.clear()
-    window.location.href = `${API_BASE_URL}/auth/logout`
+    api
+      .post(`${API_BASE_URL}/auth/logout`)
+      .then(() => {
+        localStorage.clear()
+        queryCliet.clear()
+        toast.success('Logged out')
+        router.push('/')
+      })
+      .catch(() => {
+        toast.error('Unable to logout')
+      })
   }
 
   if (!activePage) return null
