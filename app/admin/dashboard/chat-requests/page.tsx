@@ -1,3 +1,5 @@
+import { ChatRequests } from './components/chat-requests-page-body'
+
 export default function ChatRequestsPage() {
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50">
@@ -8,6 +10,8 @@ export default function ChatRequestsPage() {
             Review and manage pending conversation requests
           </p>
         </div>
+
+        <ChatRequests />
       </div>
     </div>
   )
