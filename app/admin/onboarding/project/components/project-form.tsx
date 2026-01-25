@@ -1,8 +1,8 @@
 'use client'
 
 import { useCreateProject } from '@/hooks/mutations/use-project-mutations'
-import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
-import { useOnboardingStore } from '@/hooks/use-onboarding-store'
+import { OnboardingStage, useOnboardingStageStore } from '@/hooks/stores/use-onboarding-stage-store'
+import { useOnboardingStore } from '@/hooks/stores/use-onboarding-store'
 import { projectFormSchema } from '@/schema/project-form-schema'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'

@@ -1,6 +1,6 @@
 'use client'
 
-import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
+import { OnboardingStage, useOnboardingStageStore } from '@/hooks/stores/use-onboarding-stage-store'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
