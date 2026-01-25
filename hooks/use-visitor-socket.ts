@@ -24,7 +24,6 @@ export const useVisitorSocket = () => {
           break
 
         case VisitorEventType.PENDING_CONVERSATION_CREATED:
-        case VisitorEventType.PENDING_CONVERSATION_EXISTS:
           setPendingConversationId(event.payload.pending_conversation_id)
           break
 

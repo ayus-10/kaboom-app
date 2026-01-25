@@ -3,7 +3,6 @@ export enum VisitorEventType {
   VISITOR_CREATED = 'visitor.created',
   VISITOR_FOUND = 'visitor.found',
   PENDING_CONVERSATION_CREATED = 'pending_conversation.created',
-  PENDING_CONVERSATION_EXISTS = 'pending_conversation.exists',
   PENDING_MESSAGE_CREATED = 'pending_message.created',
 }
 
@@ -24,10 +23,6 @@ export type VisitorEvent =
     }
   | {
       type: VisitorEventType.PENDING_CONVERSATION_CREATED
-      payload: { pending_conversation_id: string }
-    }
-  | {
-      type: VisitorEventType.PENDING_CONVERSATION_EXISTS
       payload: { pending_conversation_id: string }
     }
   | {
