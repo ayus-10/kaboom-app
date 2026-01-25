@@ -11,7 +11,7 @@ import { Check, X } from 'lucide-react'
 
 // TODO: 1. allow users to reply to pending conversation (that also approves) 2. warning on reject
 
-export const ChatRequestsPageBody: React.FC = () => {
+export const ChatRequests: React.FC = () => {
   useAdminPendingConversationSocket()
 
   const { data: pendingConversations, isLoading, error } = usePendingConversations()

@@ -1,5 +1,5 @@
 import { connectAdminPendingConversationSocket } from '@/lib/admin-pending-conversation-socket'
-import { AdminPendingConversationEventType } from '@/types/ws-events'
+import { AdminPendingConversationEventType } from '@/types/admin-pc-ws-events'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 

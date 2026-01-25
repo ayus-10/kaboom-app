@@ -10,6 +10,7 @@ export default function OAuthCallbackPage() {
     const hash = window.location.hash
     const params = new URLSearchParams(hash.replace('#', ''))
     const accessToken = params.get('access_token')
+    const isNewUser = params.get('is_new_user') === 'True'
 
     if (!accessToken) {
       router.replace('/')
@@ -20,7 +21,8 @@ export default function OAuthCallbackPage() {
 
     window.history.replaceState(null, '', '/oauth/callback')
 
-    router.replace('/admin/onboarding')
+    if (isNewUser) router.replace('/admin/onboarding')
+    else router.replace('/admin/dashboard')
   }, [router])
 
   return (

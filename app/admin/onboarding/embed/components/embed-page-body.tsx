@@ -1,6 +1,6 @@
 'use client'
 
-import { useOnboardingStore } from '@/hooks/use-onboarding-store'
+import { useOnboardingStore } from '@/hooks/stores/use-onboarding-store'
 import { APP_URL } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'

@@ -1,61 +1,64 @@
-import { formatTimestamp } from '@/lib/utils'
-import { Message } from '@/types/message'
-import { useEffect, useRef } from 'react'
+import { MS_PER_MINUTE, TIMESTAMP_GAP_MINUTES } from '@/lib/constants'
+import { ActiveMessage, VisitorMessage } from '@/types/message'
+import { MessageBubble } from './message-bubble'
+import { MessagesContainer } from './message-container'
 
-const MessageBubble: React.FC<{ message: Message; isOwnMessage: boolean }> = ({
-  message,
-  isOwnMessage,
-}) => {
+type ActiveMessagesProps = {
+  messages: ActiveMessage[]
+  visitorActorId: string | null
+}
+
+type PendingMessagesProps = {
+  messages: VisitorMessage[]
+}
+
+const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorId }) => {
+  const shouldShowTimestamp = (current: ActiveMessage, prev?: ActiveMessage) => {
+    if (!prev) return true
+    return (
+      (new Date(current.created_at).getTime() - new Date(prev.created_at).getTime()) /
+        MS_PER_MINUTE >
+      TIMESTAMP_GAP_MINUTES
+    )
+  }
+
+  if (!visitorActorId) return null
+
   return (
-    <div className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}>
-      <div
-        className={`max-w-xs px-4 py-2 rounded-2xl ${
-          isOwnMessage
-            ? 'bg-indigo-500 text-white rounded-br-md'
-            : 'bg-gray-100 text-gray-900 rounded-bl-md'
-        }`}
-      >
-        <p className="text-sm">{message.content}</p>
-      </div>
-    </div>
+    <MessagesContainer>
+      {messages.map((msg, idx) => {
+        const isOwnMessage = msg.sender_actor_id === visitorActorId
+        const showTimestamp = shouldShowTimestamp(msg, messages[idx - 1])
+
+        return (
+          <MessageBubble
+            key={msg.id}
+            messageStr={msg.content}
+            isOwnMessage={isOwnMessage}
+            messageTime={showTimestamp ? msg.created_at : undefined}
+          />
+        )
+      })}
+    </MessagesContainer>
   )
 }
 
-export const MessagesList: React.FC<{
-  messages: Message[]
-  currentUserId: string
-}> = ({ messages, currentUserId }) => {
-  const bottomRef = useRef<HTMLDivElement>(null)
+const PendingMessages: React.FC<PendingMessagesProps> = ({ messages }) => {
+  return (
+    <MessagesContainer>
+      {messages.map(msg => (
+        <MessageBubble key={msg.id} messageStr={msg.content} isOwnMessage />
+      ))}
+    </MessagesContainer>
+  )
+}
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  const shouldShowTimestamp = (currentMsgTime: string, prevMsgTime: string) => {
-    const current = new Date(currentMsgTime)
-    const prev = new Date(prevMsgTime)
-    const diffMins = Math.floor((current.getTime() - prev.getTime()) / 60000)
-
-    return diffMins > 5
+export const MessagesList: React.FC<
+  ({ type: 'ACTIVE' } & ActiveMessagesProps) | ({ type: 'PENDING' } & PendingMessagesProps)
+> = props => {
+  if (props.type === 'ACTIVE') {
+    return <ActiveMessages {...props} />
   }
 
-  return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-3" ref={bottomRef}>
-      {messages.map((msg, idx) => {
-        const isOwnMessage = msg.sender_actor_id === currentUserId
-        const showTimestamp = shouldShowTimestamp(msg.created_at, messages[idx - 1]?.created_at)
-
-        return (
-          <div key={msg.id}>
-            {showTimestamp && (
-              <div className="text-center text-xs text-gray-500 my-4">
-                {formatTimestamp(msg.created_at)}
-              </div>
-            )}
-            <MessageBubble message={msg} isOwnMessage={isOwnMessage} />
-          </div>
-        )
-      })}
-    </div>
-  )
+  return <PendingMessages {...props} />
 }

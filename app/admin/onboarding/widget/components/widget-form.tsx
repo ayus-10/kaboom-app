@@ -1,8 +1,8 @@
 'use client'
 
 import { useCreateWidget } from '@/hooks/mutations/use-widget-mutations'
-import { OnboardingStage, useOnboardingStageStore } from '@/hooks/use-onboarding-stage-store'
-import { useOnboardingStore } from '@/hooks/use-onboarding-store'
+import { OnboardingStage, useOnboardingStageStore } from '@/hooks/stores/use-onboarding-stage-store'
+import { useOnboardingStore } from '@/hooks/stores/use-onboarding-store'
 import { widgetFormSchema } from '@/schema/widget-form-schema'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'

@@ -1,23 +1,43 @@
 'use client'
 
+import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages'
 import { useVisitorSocket } from '@/hooks/use-visitor-socket'
 import { Send } from 'lucide-react'
 import { useState } from 'react'
 import { MessagesList } from './message-list'
-import { messages } from './messages'
 
 export const ChatWidget: React.FC = () => {
   const [inputText, setInputText] = useState('')
 
-  const currentUserId = 'user1'
+  const activeMessages = useActiveMessagesStore(state => state.activeMessages)
+  const addActiveMessage = useActiveMessagesStore(state => state.addActiveMessage)
+  const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
+  const addVisitorMessage = useVisitorMessagesStore(state => state.addVisitorMessage)
 
-  useVisitorSocket()
+  const { visitorActorId, sendMessage, conversationId } = useVisitorSocket()
 
   const handleSend = () => {
-    if (inputText.trim()) {
-      console.log('Sending:', inputText)
-      setInputText('')
+    const messageStr = inputText.trim()
+    if (!messageStr || !visitorActorId) return
+
+    if (conversationId) {
+      addActiveMessage({
+        conversation_id: conversationId,
+        content: messageStr,
+        created_at: new Date().toISOString(),
+        sender_actor_id: visitorActorId,
+        id: crypto.randomUUID(),
+      })
+      sendMessage(messageStr)
+    } else {
+      addVisitorMessage({
+        content: messageStr,
+        id: crypto.randomUUID(),
+      })
+      sendMessage(messageStr)
     }
+
+    setInputText('')
   }
 
   return (
@@ -27,7 +47,11 @@ export const ChatWidget: React.FC = () => {
         <p className="text-xs text-indigo-200">Active now</p>
       </div>
 
-      <MessagesList messages={messages} currentUserId={currentUserId} />
+      {conversationId ? (
+        <MessagesList type="ACTIVE" messages={activeMessages} visitorActorId={visitorActorId} />
+      ) : (
+        <MessagesList type="PENDING" messages={visitorMessages} />
+      )}
 
       <div className="border-t border-gray-200 p-4">
         <div className="flex items-center gap-2">
