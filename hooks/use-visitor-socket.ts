@@ -12,7 +12,7 @@ export const useVisitorSocket = () => {
   const [visitorId, setVisitorId] = useState<string | null>(null)
   const [visitorActorId, setVisitorActorId] = useState<string | null>(null)
   const [pendingConversationId, setPendingConversationId] = useState<string | null>(null)
-  const [conversationId, setConversationId] = useState<string | null>(null) // TODO: set when admin accepts a pending conversation
+  const [conversationId, _setConversationId] = useState<string | null>(null) // TODO: set when admin accepts a pending conversation
 
   useEffect(() => {
     socketRef.current = connectVisitorSocket(event => {

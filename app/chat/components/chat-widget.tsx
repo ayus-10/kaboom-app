@@ -18,7 +18,7 @@ export const ChatWidget: React.FC = () => {
 
   const handleSend = () => {
     const messageStr = inputText.trim()
-    if (!messageStr) return
+    if (!messageStr || !visitorActorId) return
 
     if (conversationId) {
       addActiveMessage({
@@ -26,13 +26,13 @@ export const ChatWidget: React.FC = () => {
         content: messageStr,
         created_at: new Date().toISOString(),
         sender_actor_id: visitorActorId,
-        id: Date.now().toString(),
+        id: crypto.randomUUID(),
       })
       sendMessage(messageStr)
     } else {
       addVisitorMessage({
         content: messageStr,
-        id: Date.now().toString(),
+        id: crypto.randomUUID(),
       })
       sendMessage(messageStr)
     }
@@ -48,7 +48,7 @@ export const ChatWidget: React.FC = () => {
       </div>
 
       {conversationId ? (
-        <MessagesList type="ACTIVE" messages={activeMessages} visitor_actor_id={visitorActorId} />
+        <MessagesList type="ACTIVE" messages={activeMessages} visitorActorId={visitorActorId} />
       ) : (
         <MessagesList type="PENDING" messages={visitorMessages} />
       )}

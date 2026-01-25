@@ -1,27 +1,34 @@
+import { MS_PER_MINUTE, TIMESTAMP_GAP_MINUTES } from '@/lib/constants'
 import { ActiveMessage, VisitorMessage } from '@/types/message'
 import { MessageBubble } from './message-bubble'
 import { MessagesContainer } from './message-container'
 
 type ActiveMessagesProps = {
   messages: ActiveMessage[]
-  visitor_actor_id: string
+  visitorActorId: string | null
 }
 
 type PendingMessagesProps = {
   messages: VisitorMessage[]
 }
 
-const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitor_actor_id }) => {
-  const shouldShowTimestamp = (current: string, prev?: string) => {
+const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorId }) => {
+  const shouldShowTimestamp = (current: ActiveMessage, prev?: ActiveMessage) => {
     if (!prev) return true
-    return (new Date(current).getTime() - new Date(prev).getTime()) / 60000 > 5
+    return (
+      (new Date(current.created_at).getTime() - new Date(prev.created_at).getTime()) /
+        MS_PER_MINUTE >
+      TIMESTAMP_GAP_MINUTES
+    )
   }
+
+  if (!visitorActorId) return null
 
   return (
     <MessagesContainer>
       {messages.map((msg, idx) => {
-        const isOwnMessage = msg.sender_actor_id === visitor_actor_id
-        const showTimestamp = shouldShowTimestamp(msg.created_at, messages[idx - 1]?.created_at)
+        const isOwnMessage = msg.sender_actor_id === visitorActorId
+        const showTimestamp = shouldShowTimestamp(msg, messages[idx - 1])
 
         return (
           <MessageBubble
