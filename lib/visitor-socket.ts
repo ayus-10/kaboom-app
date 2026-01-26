@@ -38,8 +38,7 @@ export const connectVisitorSocket = (onMessage: (event: VisitorEvent) => void) =
   }
 
   socket.onerror = err => {
-    console.log('Visitor socket error', err)
-    socket.close()
+    console.warn('Visitor socket error', err)
   }
 
   return socket

@@ -21,7 +21,9 @@ export const useAdminPendingConversationSocket = () => {
     })
 
     return () => {
-      socket.close()
+      if (socket.readyState !== WebSocket.CONNECTING) {
+        socket.close()
+      }
     }
   }, [queryClient])
 }
