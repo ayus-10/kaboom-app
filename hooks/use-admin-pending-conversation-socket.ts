@@ -1,14 +1,13 @@
 import { connectAdminPendingConversationSocket } from '@/lib/admin-pending-conversation-socket'
 import { AdminPendingConversationEventType } from '@/types/admin-pc-ws-events'
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 export const useAdminPendingConversationSocket = () => {
-  const socketRef = useRef<WebSocket | null>(null)
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    socketRef.current = connectAdminPendingConversationSocket(event => {
+    const socket = connectAdminPendingConversationSocket(event => {
       switch (event.type) {
         case AdminPendingConversationEventType.PENDING_CONVERSATION_CREATED:
           queryClient.invalidateQueries({ queryKey: ['pending-conversations'] })
@@ -22,7 +21,9 @@ export const useAdminPendingConversationSocket = () => {
     })
 
     return () => {
-      socketRef.current?.close()
+      if (socket.readyState !== WebSocket.CONNECTING) {
+        socket.close()
+      }
     }
   }, [queryClient])
 }

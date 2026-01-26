@@ -15,7 +15,7 @@ export const useVisitorSocket = () => {
   const [conversationId, _setConversationId] = useState<string | null>(null) // TODO: set when admin accepts a pending conversation
 
   useEffect(() => {
-    socketRef.current = connectVisitorSocket(event => {
+    const socket = connectVisitorSocket(event => {
       switch (event.type) {
         case VisitorEventType.VISITOR_CREATED:
         case VisitorEventType.VISITOR_FOUND:
@@ -33,8 +33,11 @@ export const useVisitorSocket = () => {
       }
     })
 
+    socketRef.current = socket
+
     return () => {
-      socketRef.current?.close()
+      socket.close()
+      socketRef.current = null
     }
   }, [])
 

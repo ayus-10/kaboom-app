@@ -13,3 +13,13 @@ export const formatTimestamp = (timestamp: string) => {
 
   return msgDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
+
+export const handleKeyDown = (
+  e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
+  onKeyDown: VoidFunction
+) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault()
+    onKeyDown()
+  }
+}

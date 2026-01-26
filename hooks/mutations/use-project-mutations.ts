@@ -1,7 +1,7 @@
 import { api } from '@/lib/api'
 import { handleApiError, toApiError } from '@/lib/api-error'
 import { Project } from '@/types/project'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface CreateProjectInput {
   title: string
@@ -9,6 +9,8 @@ interface CreateProjectInput {
 }
 
 export const useCreateProject = () => {
+  const queryClient = useQueryClient()
+
   return useMutation<Project, Error, CreateProjectInput>({
     mutationFn: async data => {
       try {
@@ -18,6 +20,9 @@ export const useCreateProject = () => {
         throw toApiError(err)
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+    },
     onError: err => {
       handleApiError(err)
     },
@@ -25,6 +30,8 @@ export const useCreateProject = () => {
 }
 
 export const useUpdateProject = (projectId: string) => {
+  const queryClient = useQueryClient()
+
   return useMutation<Project, Error, Partial<Pick<Project, 'title' | 'description'>>>({
     mutationFn: async data => {
       try {
@@ -34,6 +41,10 @@ export const useUpdateProject = (projectId: string) => {
         throw toApiError(err)
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+      queryClient.invalidateQueries({ queryKey: ['project', projectId] })
+    },
     onError: err => {
       handleApiError(err)
     },
@@ -41,6 +52,8 @@ export const useUpdateProject = (projectId: string) => {
 }
 
 export const useDeleteProject = () => {
+  const queryClient = useQueryClient()
+
   return useMutation<void, Error, string>({
     mutationFn: async projectId => {
       try {
@@ -48,6 +61,9 @@ export const useDeleteProject = () => {
       } catch (err) {
         throw toApiError(err)
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
     onError: err => {
       handleApiError(err)

@@ -17,8 +17,8 @@ export const connectAdminPendingConversationSocket = (
     }
   }
 
-  socket.onerror = () => {
-    socket.close()
+  socket.onerror = err => {
+    console.warn('Admin socket error', err)
   }
 
   return socket

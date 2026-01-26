@@ -44,3 +44,33 @@ export const useRejectPendingConversation = () => {
     },
   })
 }
+
+export const useReplyToPendingConversation = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<Conversation, Error, { id: string; message: string }>({
+    mutationFn: async ({ id, message }) => {
+      try {
+        const conversationRes = await api.post<Conversation>('/conversation', {
+          pending_conversation_id: id,
+        })
+        const conversation = conversationRes.data
+
+        // await api.post(`/conversation/${conversation.id}/message`, {
+        //   content: message,
+        // })
+
+        return conversation
+      } catch (err) {
+        throw toApiError(err)
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pending-conversations'] })
+      queryClient.invalidateQueries({ queryKey: ['conversations'] })
+    },
+    onError: err => {
+      handleApiError(err)
+    },
+  })
+}

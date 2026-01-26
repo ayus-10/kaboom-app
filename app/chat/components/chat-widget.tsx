@@ -1,7 +1,8 @@
 'use client'
 
-import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages'
+import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages-store'
 import { useVisitorSocket } from '@/hooks/use-visitor-socket'
+import { handleKeyDown } from '@/lib/utils'
 import { Send } from 'lucide-react'
 import { useState } from 'react'
 import { MessagesList } from './message-list'
@@ -59,6 +60,7 @@ export const ChatWidget: React.FC = () => {
             type="text"
             value={inputText}
             onChange={e => setInputText(e.target.value)}
+            onKeyDown={e => handleKeyDown(e, handleSend)}
             placeholder="Type a message..."
             className="flex-1 px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:border-indigo-500"
           />
