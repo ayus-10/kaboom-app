@@ -1,6 +1,12 @@
+import { PendingMessage } from './message'
+
 export interface PendingConversation {
   id: string
   visitor_id: string
+}
+
+export interface PendingConversationWithMessages extends PendingConversation {
+  pending_messages: PendingMessage[]
 }
 
 export interface Conversation {

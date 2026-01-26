@@ -10,3 +10,9 @@ export interface VisitorMessage {
   id: string
   content: string
 }
+
+export interface PendingMessage {
+  id: string
+  content: string
+  created_at: string
+}
