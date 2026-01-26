@@ -1,6 +1,6 @@
 'use client'
 
-import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages'
+import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages-store'
 import { useVisitorSocket } from '@/hooks/use-visitor-socket'
 import { Send } from 'lucide-react'
 import { useState } from 'react'
