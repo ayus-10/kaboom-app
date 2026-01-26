@@ -1,22 +1,22 @@
 'use client'
 
 import {
-  useApprovePendingConversation,
   useRejectPendingConversation,
+  useReplyToPendingConversation,
 } from '@/hooks/mutations/use-pending-conversation-mutations'
 import { usePendingConversations } from '@/hooks/queries/use-pending-conversation-queries'
 import { useAdminPendingConversationSocket } from '@/hooks/use-admin-pending-conversation-socket'
-import { PendingConversation } from '@/types/conversation'
-import { Check, X } from 'lucide-react'
-
-// TODO: 1. allow users to reply to pending conversation (that also approves) 2. warning on reject
+import { formatTimestamp, handleKeyDown } from '@/lib/utils'
+import { PendingConversationWithMessages } from '@/types/conversation'
+import { Send } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 export const ChatRequests: React.FC = () => {
   useAdminPendingConversationSocket()
 
   const { data: pendingConversations, isLoading, error } = usePendingConversations()
 
-  const approveMutation = useApprovePendingConversation()
   const rejectMutation = useRejectPendingConversation()
 
   if (isLoading) {
@@ -37,12 +37,11 @@ export const ChatRequests: React.FC = () => {
 
   if (pendingConversations && pendingConversations.length > 0) {
     return (
-      <div className="space-y-3">
+      <div className="space-y-4 grid grid-cols-2">
         {pendingConversations.map(conversation => (
           <PendingConversationCard
             conversation={conversation}
             key={conversation.id}
-            handleApprove={approveMutation.mutateAsync}
             handleReject={rejectMutation.mutateAsync}
           />
         ))}
@@ -58,43 +57,106 @@ export const ChatRequests: React.FC = () => {
 }
 
 const PendingConversationCard: React.FC<{
-  conversation: PendingConversation
-  handleApprove: (id: string) => void
+  conversation: PendingConversationWithMessages
   handleReject: (id: string) => void
-}> = ({ conversation, handleApprove, handleReject }) => {
+}> = ({ conversation, handleReject }) => {
+  const [replyText, setReplyText] = useState('')
+  const replyMutation = useReplyToPendingConversation()
+
+  const handleReply = () => {
+    if (!replyText.trim()) return
+
+    replyMutation.mutate({
+      id: conversation.id,
+      message: replyText.trim(),
+    })
+
+    setReplyText('')
+  }
+
+  const pendingMessages = conversation.pending_messages ?? []
+  const displayMessages = pendingMessages.slice(0, 5)
+
+  const handleRejectClick = () => {
+    toast('Close this conversation?', {
+      description: 'This action cannot be undone.',
+      action: {
+        label: 'Confirm',
+        onClick: () => handleReject(conversation.id),
+      },
+      cancel: {
+        label: 'Cancel',
+        onClick: () => {},
+      },
+    })
+  }
+
   return (
-    <div
-      key={conversation.id}
-      className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4"
-    >
-      <div className="flex-1">
+    <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+      <div className="flex items-center justify-between px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100">
-            <span className="text-sm font-medium text-indigo-600">V</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-sm font-medium text-indigo-600">
+            V
           </div>
           <div>
             <p className="text-sm font-medium text-gray-900">Visitor Request</p>
-            <p className="text-xs text-gray-500">Visitor ID: {conversation.visitor_id}</p>
-            <p className="text-xs text-gray-500">Request ID: {conversation.id}</p>
+            <p className="text-xs text-gray-400">Visitor ID · {conversation.visitor_id}</p>
           </div>
         </div>
+        <span className="text-xs text-gray-400">{formatTimestamp(conversation.created_at)}</span>
       </div>
 
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => handleApprove(conversation.id)}
-          className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <Check size={16} />
-          Approve
-        </button>
-        <button
-          onClick={() => handleReject(conversation.id)}
-          className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <X size={16} />
-          Reject
-        </button>
+      {displayMessages.length > 0 && (
+        <div className="space-y-1.5 overflow-y-auto px-5 pb-4">
+          {displayMessages.map(message => (
+            <div key={message.id} className="flex">
+              <div className="inline-block max-w-[85%] rounded-2xl bg-gray-100 px-3 py-1.5">
+                <p className="text-sm leading-snug text-gray-800">{message.content}</p>
+                <span className="mt-0.5 block text-right text-[11px] text-gray-400">
+                  {formatTimestamp(message.created_at)}
+                </span>
+              </div>
+            </div>
+          ))}
+
+          {pendingMessages.length > 5 && (
+            <p className="pt-1 text-xs text-gray-400">
+              +{pendingMessages.length - 5} more message
+              {pendingMessages.length - 5 !== 1 ? 's' : ''}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="border-t border-gray-100 px-5 py-4">
+        <div className="flex items-end gap-3">
+          <textarea
+            value={replyText}
+            onChange={e => setReplyText(e.target.value)}
+            onKeyDown={e => handleKeyDown(e, handleReply)}
+            placeholder="Write a reply…"
+            rows={2}
+            disabled={replyMutation.isPending}
+            className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-400 focus:bg-white focus:outline-none focus:ring-0"
+          />
+
+          <button
+            onClick={handleReply}
+            disabled={!replyText.trim() || replyMutation.isPending}
+            className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-40"
+          >
+            <Send size={16} />
+          </button>
+        </div>
+
+        <div className="mt-4 flex justify-end">
+          <button
+            onClick={handleRejectClick}
+            className="text-xs font-medium text-red-500 transition hover:text-red-600"
+          >
+            Reject conversation
+          </button>
+        </div>
       </div>
     </div>
   )
