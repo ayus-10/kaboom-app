@@ -15,5 +15,9 @@ export type AdminPendingConversationEvent =
     }
   | {
       type: AdminPendingConversationEventType.PENDING_MESSAGE_CREATED
-      payload: { pending_message_id: string; pending_conversation_id: string }
+      payload: {
+        pending_message_id: string
+        pending_conversation_id: string
+        pending_message_content: string
+      }
     }

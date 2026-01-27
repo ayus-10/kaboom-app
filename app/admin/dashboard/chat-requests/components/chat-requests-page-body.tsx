@@ -6,9 +6,9 @@ import { useAdminPendingConversationSocket } from '@/hooks/use-admin-pending-con
 import { PendingConversationCard } from './pending-conversation-card'
 
 export const ChatRequests: React.FC = () => {
-  useAdminPendingConversationSocket()
+  const { data: pendingConversations, isLoading, isFetched, error } = usePendingConversations()
 
-  const { data: pendingConversations, isLoading, error } = usePendingConversations()
+  useAdminPendingConversationSocket(isFetched)
 
   const rejectMutation = useRejectPendingConversation()
 
