@@ -59,7 +59,7 @@ export const useAdminPendingConversationSocket = (isReady: boolean) => {
               if (conv.id === event.payload.pending_conversation_id) {
                 return {
                   ...conv,
-                  pending_messages: [...conv.pending_messages, newPendingMessage],
+                  pending_messages: [newPendingMessage, ...conv.pending_messages],
                 }
               }
               return conv
