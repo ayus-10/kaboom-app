@@ -4,6 +4,7 @@ import { PendingConversationWithMessages } from '@/types/conversation'
 import { PendingMessage } from '@/types/message'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 
 export const useAdminPendingConversationSocket = (isReady: boolean) => {
   const queryClient = useQueryClient()
@@ -25,6 +26,9 @@ export const useAdminPendingConversationSocket = (isReady: boolean) => {
           old => {
             if (!old) return [newPendingConv]
             if (old.some(pc => pc.id === newPendingConv.id)) return old
+
+            toast.info('New visitor request for chat')
+
             return [...old, newPendingConv]
           }
         )

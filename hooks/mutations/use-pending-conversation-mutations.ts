@@ -2,6 +2,7 @@ import { api } from '@/lib/api'
 import { handleApiError, toApiError } from '@/lib/api-error'
 import { Conversation } from '@/types/conversation'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export const useApprovePendingConversation = () => {
   const queryClient = useQueryClient()
@@ -56,9 +57,9 @@ export const useReplyToPendingConversation = () => {
         })
         const conversation = conversationRes.data
 
-        // await api.post(`/conversation/${conversation.id}/message`, {
-        //   content: message,
-        // })
+        await api.post(`/conversation/${conversation.id}/message`, {
+          content: message,
+        })
 
         return conversation
       } catch (err) {
@@ -68,6 +69,8 @@ export const useReplyToPendingConversation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pending-conversations'] })
       queryClient.invalidateQueries({ queryKey: ['conversations'] })
+
+      toast.success('Conversation accepted with visitor')
     },
     onError: err => {
       handleApiError(err)
