@@ -40,7 +40,7 @@ export const WidgetCard: React.FC<{
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg border border-gray-200 bg-white p-4">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-gray-900">{widget.title}</h3>

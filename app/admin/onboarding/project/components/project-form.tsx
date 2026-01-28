@@ -52,7 +52,7 @@ export const ProjectForm: React.FC = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto max-w-md space-y-6 rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+      className="mx-auto max-w-md space-y-6 rounded-2xl border border-gray-200 bg-white p-8"
     >
       <div>
         <label className="block text-sm font-medium text-gray-800" htmlFor="name">
