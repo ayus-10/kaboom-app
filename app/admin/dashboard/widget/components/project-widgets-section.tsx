@@ -52,8 +52,10 @@ export const ProjectWidgetsSection: React.FC<{
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">{projectTitle}</h2>
+      <div className="flex md:flex-row flex-col md:items-center justify-between">
+        <h2 className="text-lg font-semibold text-gray-900 line-clamp-1 text-ellipsis">
+          {projectTitle}
+        </h2>
         {!isCreating && (
           <button
             onClick={onStartCreate}
@@ -85,7 +87,7 @@ export const ProjectWidgetsSection: React.FC<{
       )}
 
       {widgets && widgets.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col md:grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {widgets.map(widget => (
             <WidgetCard
               key={widget.id}

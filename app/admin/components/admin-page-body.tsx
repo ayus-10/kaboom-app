@@ -10,5 +10,9 @@ export const AdminPageBody: React.FC = () => {
     router.push('/admin/dashboard/project')
   }, [router])
 
-  return <div className="flex h-screen items-center justify-center">Please wait…</div>
+  return (
+    <div className="flex h-screen w-screen items-center justify-center">
+      <p>Please wait...</p>
+    </div>
+  )
 }

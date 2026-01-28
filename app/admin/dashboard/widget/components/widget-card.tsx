@@ -40,14 +40,20 @@ export const WidgetCard: React.FC<{
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg border border-gray-200 bg-white p-4">
       <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <h3 className="text-sm font-semibold text-gray-900">{widget.title}</h3>
-          {widget.description && <p className="mt-1 text-sm text-gray-600">{widget.description}</p>}
-          <p className="mt-2 text-xs text-gray-500">Site: {widget.site_url}</p>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-semibold text-gray-900 line-clamp-1 text-ellipsis">
+            {widget.title}
+          </h3>
+          {widget.description && (
+            <p className="mt-1 text-sm text-gray-600 line-clamp-3 text-ellipsis">
+              {widget.description}
+            </p>
+          )}
+          <p className="mt-2 text-xs text-gray-500 break-all">Site: {widget.site_url}</p>
         </div>
-        <div className="ml-4 flex items-center gap-2">
+        <div className="ml-4 flex flex-col shrink-0 items-center gap-2">
           <button
             onClick={onEdit}
             className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"

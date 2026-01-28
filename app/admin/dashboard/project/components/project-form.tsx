@@ -35,10 +35,7 @@ export const ProjectForm: React.FC<{
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
-    >
+    <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 bg-white p-4">
       <div className="space-y-3">
         <div>
           <label className="block text-xs font-medium text-gray-700">Title</label>

@@ -1,4 +1,4 @@
-import { useReplyToPendingConversation } from '@/hooks/mutations/use-pending-conversation-mutations'
+import { useReplyToPendingConversation } from '@/hooks/mutations/use-conversation-mutations'
 import { formatTimestamp, handleKeyDown } from '@/lib/utils'
 import { PendingConversationWithMessages } from '@/types/conversation'
 import { Send } from 'lucide-react'
@@ -41,15 +41,17 @@ export const PendingConversationCard: React.FC<{
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
-      <div className="flex items-center justify-between px-5 py-4">
+    <div className="overflow-hidden w-full max-w-[500px] rounded-xl border border-gray-100 bg-white">
+      <div className="flex md:items-center md:flex-row flex-col justify-between px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-sm font-medium text-indigo-600">
+          <div className="h-9 w-9 items-center hidden md:flex justify-center rounded-full bg-indigo-50 text-sm font-medium text-indigo-600">
             V
           </div>
           <div>
             <p className="text-sm font-medium text-gray-900">Visitor Request</p>
-            <p className="text-xs text-gray-400">Visitor ID · {conversation.visitor_id}</p>
+            <p className="text-xs text-gray-400">
+              <span>VISITOR-{conversation.visitor.display_id}</span>
+            </p>
           </div>
         </div>
         <span className="text-xs text-gray-400">{formatTimestamp(conversation.created_at)}</span>
@@ -78,21 +80,21 @@ export const PendingConversationCard: React.FC<{
       )}
 
       <div className="border-t border-gray-100 px-5 py-4">
-        <div className="flex items-end gap-3">
+        <div className="flex items-end gap-3 relative">
           <textarea
             value={replyText}
             onChange={e => setReplyText(e.target.value)}
             onKeyDown={e => handleKeyDown(e, handleReply)}
-            placeholder="Write a reply…"
+            placeholder="Write a reply..."
             rows={2}
             disabled={replyMutation.isPending}
-            className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-400 focus:bg-white focus:outline-none focus:ring-0"
+            className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-400 focus:bg-white focus:outline-none focus:ring-0 md:pr-4 pr-12"
           />
 
           <button
             onClick={handleReply}
             disabled={!replyText.trim() || replyMutation.isPending}
-            className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-40"
+            className="rounded-xl bg-indigo-600 md:px-4 px-2 absolute top-1/2 md:translate-y-0 right-2 -translate-y-1/2 md:static py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-40"
           >
             <Send size={16} />
           </button>

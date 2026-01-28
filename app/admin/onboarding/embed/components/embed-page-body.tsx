@@ -22,7 +22,7 @@ export const EmbedPageBody: React.FC = () => {
   if (!widgetId) return null
 
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-sm space-y-6">
+    <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-8 space-y-6">
       <h1 className="text-2xl font-semibold text-gray-900">Embed your Widget</h1>
 
       <p className="text-gray-700">
