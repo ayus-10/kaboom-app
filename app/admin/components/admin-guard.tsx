@@ -14,7 +14,11 @@ export const AdminGuard: React.FC<{ children: React.ReactNode }> = ({ children }
   }, [isLoading, isAuthenticated])
 
   if (isLoading) {
-    return <div className="flex h-screen items-center justify-center">Checking session…</div>
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <p>Checking session...</p>
+      </div>
+    )
   }
 
   if (!isAuthenticated) {

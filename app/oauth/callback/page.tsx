@@ -26,8 +26,8 @@ export default function OAuthCallbackPage() {
   }, [router])
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <p>Signing you in…</p>
+    <div className="flex h-screen w-screen items-center justify-center">
+      <p>Signing you in...</p>
     </div>
   )
 }

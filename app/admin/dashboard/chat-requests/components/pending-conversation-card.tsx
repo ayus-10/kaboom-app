@@ -1,4 +1,4 @@
-import { useReplyToPendingConversation } from '@/hooks/mutations/use-pending-conversation-mutations'
+import { useReplyToPendingConversation } from '@/hooks/mutations/use-conversation-mutations'
 import { formatTimestamp, handleKeyDown } from '@/lib/utils'
 import { PendingConversationWithMessages } from '@/types/conversation'
 import { Send } from 'lucide-react'
@@ -83,7 +83,7 @@ export const PendingConversationCard: React.FC<{
             value={replyText}
             onChange={e => setReplyText(e.target.value)}
             onKeyDown={e => handleKeyDown(e, handleReply)}
-            placeholder="Write a reply…"
+            placeholder="Write a reply..."
             rows={2}
             disabled={replyMutation.isPending}
             className="flex-1 resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-400 focus:bg-white focus:outline-none focus:ring-0"
