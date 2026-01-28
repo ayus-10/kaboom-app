@@ -18,7 +18,10 @@ export const useAdminPendingConversationSocket = (isReady: boolean) => {
       if (event.type === AdminPendingConversationEventType.PENDING_CONVERSATION_CREATED) {
         const newPendingConv: PendingConversationWithMessages = {
           id: event.payload.pending_conversation_id,
-          visitor_id: event.payload.visitor_id,
+          visitor: {
+            id: event.payload.visitor_id,
+            display_id: event.payload.visitor_display_id,
+          },
           created_at: new Date().toISOString(),
           pending_messages: [],
         }

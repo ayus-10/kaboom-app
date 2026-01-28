@@ -14,7 +14,7 @@ export const ConversationList: React.FC<{
   const showConversations = Array.isArray(conversations) && conversations.length > 0 && !!userInfo
 
   return (
-    <div className="flex w-1/3 flex-col rounded-lg border border-gray-200 bg-white">
+    <div className="flex w-full lg:w-1/3 flex-col rounded-lg border border-gray-200 bg-white">
       <div className="border-b border-gray-100 px-4 py-3">
         <h2 className="text-sm font-semibold text-gray-900">Conversations</h2>
         <p className="mt-1 text-xs text-gray-500">Select a conversation to view and reply</p>

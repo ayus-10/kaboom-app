@@ -6,8 +6,12 @@ export interface PendingConversation {
   created_at: string
 }
 
-export interface PendingConversationWithMessages extends PendingConversation {
+export interface PendingConversationWithMessages extends Omit<PendingConversation, 'visitor_id'> {
   pending_messages: PendingMessage[]
+  visitor: {
+    id: string
+    display_id: string
+  }
 }
 
 export interface Conversation {

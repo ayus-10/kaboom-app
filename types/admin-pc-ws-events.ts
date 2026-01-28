@@ -7,7 +7,7 @@ export enum AdminPendingConversationEventType {
 export type AdminPendingConversationEvent =
   | {
       type: AdminPendingConversationEventType.PENDING_CONVERSATION_CREATED
-      payload: { pending_conversation_id: string; visitor_id: string }
+      payload: { pending_conversation_id: string; visitor_id: string; visitor_display_id: string }
     }
   | {
       type: AdminPendingConversationEventType.PENDING_CONVERSATION_CLOSED

@@ -32,7 +32,7 @@ export const ChatPageBody: React.FC = () => {
         setSelectedConversationId={setSelectedConversationId}
       />
 
-      <div className="flex w-2/3 flex-col rounded-lg border border-dashed border-gray-200 bg-white/40">
+      <div className="hidden lg:flex w-full lg:w-2/3 flex-col rounded-lg border border-dashed border-gray-200 bg-white/40">
         <div className="border-b border-gray-200 px-4 py-3">
           {selectedConversationId ? (
             <div className="space-y-1">

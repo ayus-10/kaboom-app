@@ -50,9 +50,7 @@ export const PendingConversationCard: React.FC<{
           <div>
             <p className="text-sm font-medium text-gray-900">Visitor Request</p>
             <p className="text-xs text-gray-400">
-              <span className="md:inline hidden">Visitor ID</span>
-              <span className="md:inline hidden"> · </span>
-              <span>{conversation.visitor_id}</span>
+              <span>VISITOR-{conversation.visitor.display_id}</span>
             </p>
           </div>
         </div>
