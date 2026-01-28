@@ -3,10 +3,12 @@ import { AdminPendingConversationEventType } from '@/types/admin-pc-ws-events'
 import { PendingConversationWithMessages } from '@/types/conversation'
 import { PendingMessage } from '@/types/message'
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 
 export const useAdminPendingConversationSocket = (isReady: boolean) => {
+  const socketRef = useRef<WebSocket | null>(null)
+
   const queryClient = useQueryClient()
 
   useEffect(() => {
@@ -73,10 +75,13 @@ export const useAdminPendingConversationSocket = (isReady: boolean) => {
       }
     })
 
+    socketRef.current = socket
+
     return () => {
       if (socket.readyState !== WebSocket.CONNECTING) {
         socket.close()
       }
+      socketRef.current = null
     }
   }, [queryClient, isReady])
 }

@@ -50,6 +50,7 @@ export const WidgetsPageBody: React.FC = () => {
             onCancelEdit={() => setEditingWidget(null)}
             onDelete={(widgetId: string) =>
               toast('Delete this widget?', {
+                description: 'All integrated chat widgets will be unusable.',
                 action: {
                   label: 'Delete',
                   onClick: () => deleteMutation.mutateAsync({ projectId: project.id, widgetId }),

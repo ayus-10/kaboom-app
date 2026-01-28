@@ -80,6 +80,7 @@ export const ProjectsPageBody: React.FC = () => {
               onCancelEdit={() => setEditingId(null)}
               onDelete={() =>
                 toast('Delete this project?', {
+                  description: 'All related widgets will be deleted too.',
                   action: {
                     label: 'Delete',
                     onClick: async () => {
