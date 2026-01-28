@@ -35,7 +35,7 @@ export const ProjectsPageBody: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start justify-between">
+      <div className="flex md:flex-row flex-col md:items-start justify-between">
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-900">Projects</h2>
           <p className="mt-1 text-sm text-gray-600">Review and manage your active projects</p>
@@ -70,7 +70,7 @@ export const ProjectsPageBody: React.FC = () => {
       )}
 
       {projects && projects.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col md:grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map(project => (
             <ProjectCard
               key={project.id}

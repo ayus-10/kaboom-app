@@ -30,7 +30,7 @@ export const ChatRequests: React.FC = () => {
 
   if (pendingConversations && pendingConversations.length > 0) {
     return (
-      <div className="space-y-4 flex flex-col gap-8">
+      <div className="space-y-4 flex flex-col gap-4">
         {pendingConversations.map(conversation => (
           <PendingConversationCard
             conversation={conversation}
