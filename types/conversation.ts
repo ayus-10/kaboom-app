@@ -14,9 +14,14 @@ export interface PendingConversationWithMessages extends Omit<PendingConversatio
   }
 }
 
+export interface Visitor {
+  id: string
+  display_id: string
+}
+
 export interface Conversation {
   id: string
-  visitor_id: string
+  visitor: Visitor
   created_at: string
 }
 

@@ -31,7 +31,9 @@ export const ConversationListItem: React.FC<{
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-sm font-medium text-gray-900">Visitor {conversation.visitor_id}</p>
+            <p className="text-sm font-medium text-gray-900">
+              VISITOR-{conversation.visitor.display_id}
+            </p>
             <span className="text-xs text-gray-400">{sentTime}</span>
           </div>
           <p className="mt-1 text-xs text-gray-500">{preview}</p>
