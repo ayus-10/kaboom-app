@@ -1,11 +1,14 @@
 'use client'
 
 import { useConversations } from '@/hooks/queries/use-conversation-queries'
+import { useAdminConversationSocket } from '@/hooks/use-admin-conversation-socket'
 import { ChatSection } from './chat-section'
 import { ConversationList } from './conversation-list'
 
 export const ChatPageBody: React.FC = () => {
-  const { data: conversations, isLoading, error } = useConversations()
+  const { data: conversations, isLoading, isFetched, error } = useConversations()
+
+  useAdminConversationSocket(isFetched)
 
   if (isLoading) {
     return (

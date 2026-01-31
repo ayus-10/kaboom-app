@@ -2,11 +2,11 @@
 
 import { useUser } from '@/hooks/queries/use-user'
 import { useSelectedConversationStore } from '@/hooks/stores/use-conversation-store'
-import { ConversationReadWithLatestMessage } from '@/types/conversation'
+import { ConversationWithLatestMessage } from '@/types/conversation'
 import { ConversationListItem } from './conversation-list-item'
 
 export const ConversationList: React.FC<{
-  conversations?: ConversationReadWithLatestMessage[]
+  conversations?: ConversationWithLatestMessage[]
 }> = ({ conversations }) => {
   const { data: userInfo } = useUser()
 

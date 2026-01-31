@@ -32,6 +32,6 @@ export interface ConversationMessage {
   created_at: string
 }
 
-export interface ConversationReadWithLatestMessage extends Conversation {
+export interface ConversationWithLatestMessage extends Conversation {
   latest_message?: ConversationMessage | null
 }

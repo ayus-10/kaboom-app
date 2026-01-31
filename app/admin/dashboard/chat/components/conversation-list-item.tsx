@@ -1,10 +1,10 @@
 'use client'
 
 import { formatTimestamp } from '@/lib/utils'
-import { ConversationReadWithLatestMessage } from '@/types/conversation'
+import { ConversationWithLatestMessage } from '@/types/conversation'
 
 export const ConversationListItem: React.FC<{
-  conversation: ConversationReadWithLatestMessage
+  conversation: ConversationWithLatestMessage
   isSelected: boolean
   onSelect: () => void
   currentUserActorId: string
