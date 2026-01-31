@@ -10,7 +10,6 @@ export type AdminConversationEvent =
         conversation_id: string
         conversation_visitor_id: string
         conversation_visitor_display_id: string
-        conversation_created_at: string
       }
     }
   | {
