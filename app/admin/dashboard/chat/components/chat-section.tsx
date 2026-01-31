@@ -14,7 +14,7 @@ export const ChatSection: React.FC = () => {
   useAdminConversationByIdSocket(selectedConversation?.id)
 
   return (
-    <div className="hidden lg:flex w-full lg:w-2/3 flex-col rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div className="hidden lg:flex w-full lg:w-2/3 flex-col rounded-xl border border-gray-200 bg-white overflow-hidden">
       <ChatSectionHeader selectedConversation={selectedConversation} />
       <ChatMessagesWrapper
         isError={isError}
