@@ -1,13 +1,20 @@
 'use client'
 
-export const ChatSection: React.FC<{ conversationId: string | null }> = ({ conversationId }) => {
+import { useSelectedConversationStore } from '@/hooks/stores/use-conversation-store'
+import { StatusBadge } from './status-badge'
+
+export const ChatSection: React.FC = () => {
+  const selectedConversation = useSelectedConversationStore(state => state.selectedConversation)
+
   return (
     <div className="hidden lg:flex w-full lg:w-2/3 flex-col rounded-lg border border-dashed border-gray-200 bg-white/40">
       <div className="border-b border-gray-200 px-4 py-3">
-        {conversationId ? (
+        {selectedConversation ? (
           <div className="space-y-1">
-            <div className="h-4 w-40 animate-pulse rounded bg-gray-200" />
-            <div className="h-3 w-24 animate-pulse rounded bg-gray-100" />
+            <p className="text-sm font-semibold text-gray-900">
+              VISITOR-{selectedConversation.visitor.display_id}
+            </p>
+            <StatusBadge status="online" />
           </div>
         ) : (
           <div className="flex items-center justify-between">

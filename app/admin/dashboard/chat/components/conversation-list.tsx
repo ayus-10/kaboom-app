@@ -1,15 +1,19 @@
 'use client'
 
 import { useUser } from '@/hooks/queries/use-user'
+import { useSelectedConversationStore } from '@/hooks/stores/use-conversation-store'
 import { ConversationReadWithLatestMessage } from '@/types/conversation'
 import { ConversationListItem } from './conversation-list-item'
 
 export const ConversationList: React.FC<{
   conversations?: ConversationReadWithLatestMessage[]
-  selectedConversationId: string | null
-  setSelectedConversationId: React.Dispatch<React.SetStateAction<string | null>>
-}> = ({ conversations, selectedConversationId, setSelectedConversationId }) => {
+}> = ({ conversations }) => {
   const { data: userInfo } = useUser()
+
+  const selectedConversation = useSelectedConversationStore(state => state.selectedConversation)
+  const setSelectedConversation = useSelectedConversationStore(
+    state => state.setSelectedConversation
+  )
 
   const showConversations = Array.isArray(conversations) && conversations.length > 0 && !!userInfo
 
@@ -27,8 +31,8 @@ export const ConversationList: React.FC<{
               <ConversationListItem
                 key={conversation.id}
                 conversation={conversation}
-                isSelected={conversation.id === selectedConversationId}
-                onSelect={() => setSelectedConversationId(conversation.id)}
+                isSelected={conversation.id === selectedConversation?.id}
+                onSelect={() => setSelectedConversation(conversation)}
                 currentUserActorId={userInfo.user_actor_id}
               />
             ))}

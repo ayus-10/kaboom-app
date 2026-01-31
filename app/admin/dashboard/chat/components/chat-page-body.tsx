@@ -1,13 +1,11 @@
 'use client'
 
 import { useConversations } from '@/hooks/queries/use-conversation-queries'
-import { useState } from 'react'
 import { ChatSection } from './chat-section'
 import { ConversationList } from './conversation-list'
 
 export const ChatPageBody: React.FC = () => {
   const { data: conversations, isLoading, error } = useConversations()
-  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
 
   if (isLoading) {
     return (
@@ -27,13 +25,8 @@ export const ChatPageBody: React.FC = () => {
 
   return (
     <div className="flex h-[calc(100vh-9rem)] gap-6">
-      <ConversationList
-        conversations={conversations}
-        selectedConversationId={selectedConversationId}
-        setSelectedConversationId={setSelectedConversationId}
-      />
-
-      <ChatSection conversationId={selectedConversationId} />
+      <ConversationList conversations={conversations} />
+      <ChatSection />
     </div>
   )
 }
