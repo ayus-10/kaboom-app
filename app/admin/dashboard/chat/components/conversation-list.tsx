@@ -1,20 +1,24 @@
 'use client'
 
 import { useUser } from '@/hooks/queries/use-user'
-import { ConversationReadWithLatestMessage } from '@/types/conversation'
+import { useSelectedConversationStore } from '@/hooks/stores/use-conversation-store'
+import { ConversationWithLatestMessage } from '@/types/conversation'
 import { ConversationListItem } from './conversation-list-item'
 
 export const ConversationList: React.FC<{
-  conversations?: ConversationReadWithLatestMessage[]
-  selectedConversationId: string | null
-  setSelectedConversationId: React.Dispatch<React.SetStateAction<string | null>>
-}> = ({ conversations, selectedConversationId, setSelectedConversationId }) => {
+  conversations?: ConversationWithLatestMessage[]
+}> = ({ conversations }) => {
   const { data: userInfo } = useUser()
+
+  const selectedConversation = useSelectedConversationStore(state => state.selectedConversation)
+  const setSelectedConversation = useSelectedConversationStore(
+    state => state.setSelectedConversation
+  )
 
   const showConversations = Array.isArray(conversations) && conversations.length > 0 && !!userInfo
 
   return (
-    <div className="flex w-full lg:w-1/3 flex-col rounded-lg border border-gray-200 bg-white">
+    <div className="flex w-full lg:min-w-64 lg:w-1/3 flex-col rounded-lg border border-gray-200 bg-white">
       <div className="border-b border-gray-100 px-4 py-3">
         <h2 className="text-sm font-semibold text-gray-900">Conversations</h2>
         <p className="mt-1 text-xs text-gray-500">Select a conversation to view and reply</p>
@@ -27,8 +31,8 @@ export const ConversationList: React.FC<{
               <ConversationListItem
                 key={conversation.id}
                 conversation={conversation}
-                isSelected={conversation.id === selectedConversationId}
-                onSelect={() => setSelectedConversationId(conversation.id)}
+                isSelected={conversation.id === selectedConversation?.id}
+                onSelect={() => setSelectedConversation(conversation)}
                 currentUserActorId={userInfo.user_actor_id}
               />
             ))}

@@ -1,11 +1,10 @@
 'use client'
 
-import { useUser } from '@/hooks/queries/use-user'
 import { useActivePage } from '@/hooks/use-active-page'
 import { api } from '@/lib/api'
 import { API_BASE_URL } from '@/lib/constants'
 import { useQueryClient } from '@tanstack/react-query'
-import { ChevronDown, Menu, User, X } from 'lucide-react'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -13,8 +12,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 export const MainSidebar: React.FC = () => {
-  const { data: user } = useUser()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const activePage = useActivePage()
 
@@ -46,7 +44,6 @@ export const MainSidebar: React.FC = () => {
       .then(() => {
         localStorage.clear()
         queryCliet.clear()
-        toast.success('Logged out')
         router.push('/')
       })
       .catch(() => {
@@ -54,8 +51,8 @@ export const MainSidebar: React.FC = () => {
       })
   }
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false)
+  const closeMenu = () => {
+    setIsMenuOpen(false)
   }
 
   if (!activePage) return null
@@ -63,22 +60,22 @@ export const MainSidebar: React.FC = () => {
   return (
     <>
       <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white border border-gray-200 shadow-sm md:hidden"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="fixed top-4 right-4 z-50 p-2 rounded-lg bg-white border border-gray-200 shadow-sm md:hidden"
         aria-label="Toggle menu"
       >
-        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={closeMobileMenu} />
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={closeMenu} />
       )}
 
       <div
         className={`
           fixed md:static inset-y-0 left-0 z-40
           transform transition-transform duration-300 ease-in-out
-          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
           md:translate-x-0
           flex h-screen w-64 flex-col justify-between border-e border-gray-100 bg-white
         `}
@@ -94,7 +91,7 @@ export const MainSidebar: React.FC = () => {
               <li key={p.path}>
                 <Link
                   href={p.path}
-                  onClick={closeMobileMenu}
+                  onClick={closeMenu}
                   className={
                     activePage === p.path
                       ? 'block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700'
@@ -120,7 +117,7 @@ export const MainSidebar: React.FC = () => {
                   <li>
                     <Link
                       href="account"
-                      onClick={closeMobileMenu}
+                      onClick={closeMenu}
                       className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                     >
                       Details
@@ -131,7 +128,7 @@ export const MainSidebar: React.FC = () => {
                     <div
                       onClick={() => {
                         handleLogout()
-                        closeMobileMenu()
+                        closeMenu()
                       }}
                       className="w-full cursor-pointer rounded-lg px-4 py-2 [text-align:inherit] text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                     >
@@ -143,31 +140,6 @@ export const MainSidebar: React.FC = () => {
             </li>
           </ul>
         </div>
-
-        {user && (
-          <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
-            <span className="flex items-center gap-2 bg-white p-4 hover:bg-gray-50">
-              {user.avatar_url ? (
-                <Image
-                  height={40}
-                  width={40}
-                  alt="Profile"
-                  src={user.avatar_url}
-                  className="rounded-full size-[40]"
-                />
-              ) : (
-                <User size={40} />
-              )}
-
-              <div>
-                <p className="text-xs">
-                  <strong className="block font-medium">{`${user.first_name} ${user.last_name}`}</strong>
-                  <span>{user.email}</span>
-                </p>
-              </div>
-            </span>
-          </div>
-        )}
       </div>
     </>
   )

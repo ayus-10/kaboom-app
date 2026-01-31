@@ -14,9 +14,14 @@ export interface PendingConversationWithMessages extends Omit<PendingConversatio
   }
 }
 
+export interface Visitor {
+  id: string
+  display_id: string
+}
+
 export interface Conversation {
   id: string
-  visitor_id: string
+  visitor: Visitor
   created_at: string
 }
 
@@ -27,6 +32,6 @@ export interface ConversationMessage {
   created_at: string
 }
 
-export interface ConversationReadWithLatestMessage extends Conversation {
+export interface ConversationWithLatestMessage extends Conversation {
   latest_message?: ConversationMessage | null
 }
