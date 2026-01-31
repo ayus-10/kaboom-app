@@ -1,10 +1,16 @@
 'use client'
 
+import { useConversationMessages } from '@/hooks/queries/use-conversation-message-queries'
 import { useSelectedConversationStore } from '@/hooks/stores/use-conversation-store'
+import { useAdminConversationByIdSocket } from '@/hooks/use-admin-conversation-by-id-socket'
 import { StatusBadge } from './status-badge'
 
 export const ChatSection: React.FC = () => {
   const selectedConversation = useSelectedConversationStore(state => state.selectedConversation)
+
+  const { data, error, isLoading, isFetched } = useConversationMessages(selectedConversation?.id)
+
+  useAdminConversationByIdSocket(selectedConversation?.id)
 
   return (
     <div className="hidden lg:flex w-full lg:w-2/3 flex-col rounded-lg border border-dashed border-gray-200 bg-white/40">

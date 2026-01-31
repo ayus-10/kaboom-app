@@ -1,4 +1,4 @@
-import { AdminConversationEvent } from '@/types/admin-conv-ws-events'
+import { AdminConversationEvent } from '@/types/admin-conversation-ws-events'
 import { API_BASE_URL } from './constants'
 
 export const connectAdminConversationSocket = (

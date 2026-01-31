@@ -1,3 +1,22 @@
+export enum AdminConversationEventType {
+  CONVERSATION_CREATED = 'conversation.created',
+  CONVERSATION_CLOSED = 'conversation.closed',
+}
+
+export type AdminConversationEvent =
+  | {
+      type: AdminConversationEventType.CONVERSATION_CREATED
+      payload: {
+        conversation_id: string
+        conversation_visitor_id: string
+        conversation_visitor_display_id: string
+      }
+    }
+  | {
+      type: AdminConversationEventType.CONVERSATION_CLOSED
+      payload: { conversation_id: string }
+    }
+
 export enum AdminPendingConversationEventType {
   PENDING_CONVERSATION_CREATED = 'pending_conversation.created',
   PENDING_CONVERSATION_CLOSED = 'pending_conversation.closed',

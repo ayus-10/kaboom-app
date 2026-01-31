@@ -1,4 +1,4 @@
-import { AdminPendingConversationEvent } from '@/types/admin-pc-ws-events'
+import { AdminPendingConversationEvent } from '@/types/admin-conversation-ws-events'
 import { API_BASE_URL } from './constants'
 
 export const connectAdminPendingConversationSocket = (
