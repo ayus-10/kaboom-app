@@ -5,6 +5,7 @@ import {
   VisitorEventType,
 } from '@/types/visitor-ws-events'
 import { useEffect, useRef, useState } from 'react'
+import { useActiveMessagesStore, useVisitorMessagesStore } from './stores/use-messages-store'
 
 export const useVisitorSocket = () => {
   const socketRef = useRef<WebSocket | null>(null)
@@ -12,7 +13,10 @@ export const useVisitorSocket = () => {
   const [visitorId, setVisitorId] = useState<string | null>(null)
   const [visitorActorId, setVisitorActorId] = useState<string | null>(null)
   const [pendingConversationId, setPendingConversationId] = useState<string | null>(null)
-  const [conversationId, _setConversationId] = useState<string | null>(null) // TODO: set when admin accepts a pending conversation
+  const [conversationId, setConversationId] = useState<string | null>(null)
+
+  const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
+  const setActiveMessages = useActiveMessagesStore(state => state.setActiveMessages)
 
   useEffect(() => {
     const socket = connectVisitorSocket(event => {
@@ -26,6 +30,25 @@ export const useVisitorSocket = () => {
         case VisitorEventType.PENDING_CONVERSATION_CREATED:
           setPendingConversationId(event.payload.pending_conversation_id)
           break
+
+        case VisitorEventType.CONVERSATION_CREATED: {
+          if (!visitorActorId) break
+
+          const convId = event.payload.conversation_id
+          const now = new Date().toISOString()
+
+          setActiveMessages(
+            visitorMessages.map(v => ({
+              ...v,
+              conversation_id: convId,
+              created_at: now,
+              sender_actor_id: visitorActorId,
+            }))
+          )
+
+          setConversationId(convId)
+          break
+        }
 
         case VisitorEventType.ERROR:
           console.log(event.payload.message)
