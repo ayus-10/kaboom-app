@@ -1,6 +1,6 @@
 // <script src="http://localhost:3000/js/chat-widget.js" data-widget-id="abc123"></script>
 
-(function () {
+;(function () {
   if (window.__CHAT_WIDGET_LOADED__) return
   window.__CHAT_WIDGET_LOADED__ = true
 
@@ -25,6 +25,12 @@
 
   const iframe = document.createElement('iframe')
   iframe.src = embedUrl
+
+  iframe.setAttribute(
+    'sandbox',
+    'allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox'
+  )
+
   Object.assign(iframe.style, {
     position: 'fixed',
     bottom: '90px',

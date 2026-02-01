@@ -5,6 +5,23 @@ const nextConfig: NextConfig = {
     remotePatterns: [new URL(`https://lh3.googleusercontent.com/**`)],
   },
   output: 'export',
+  headers: () => {
+    return [
+      {
+        source: '/chat',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: 'frame-ancestors *',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig
