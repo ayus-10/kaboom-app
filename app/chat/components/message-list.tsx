@@ -1,4 +1,4 @@
-import { MS_PER_MINUTE, TIMESTAMP_GAP_MINUTES } from '@/lib/constants'
+import { shouldShowTimestamp } from '@/lib/utils'
 import { ActiveMessage, VisitorMessage } from '@/types/message'
 import { MessageBubble } from './message-bubble'
 import { MessagesContainer } from './message-container'
@@ -13,15 +13,6 @@ type PendingMessagesProps = {
 }
 
 const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorId }) => {
-  const shouldShowTimestamp = (current: ActiveMessage, prev?: ActiveMessage) => {
-    if (!prev) return true
-    return (
-      (new Date(current.created_at).getTime() - new Date(prev.created_at).getTime()) /
-        MS_PER_MINUTE >
-      TIMESTAMP_GAP_MINUTES
-    )
-  }
-
   if (!visitorActorId) return null
 
   return (
