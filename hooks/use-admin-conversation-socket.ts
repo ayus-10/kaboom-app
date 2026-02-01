@@ -1,5 +1,5 @@
 import { connectAdminConversationSocket } from '@/lib/admin-conversation-socket'
-import { AdminConversationEventType } from '@/types/admin-conv-ws-events'
+import { AdminConversationEventType } from '@/types/admin-conversation-ws-events'
 import { Conversation, ConversationWithLatestMessage } from '@/types/conversation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'

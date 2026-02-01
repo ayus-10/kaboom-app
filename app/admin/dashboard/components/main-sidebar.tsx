@@ -61,7 +61,7 @@ export const MainSidebar: React.FC = () => {
     <>
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="fixed top-4 right-4 z-50 p-2 rounded-lg bg-white border border-gray-200 shadow-sm md:hidden"
+        className="fixed top-4 right-4 z-50 p-2 rounded-lg bg-white border border-gray-200 md:hidden"
         aria-label="Toggle menu"
       >
         {isMenuOpen ? <X size={24} /> : <Menu size={24} />}

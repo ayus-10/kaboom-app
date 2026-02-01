@@ -3,13 +3,13 @@ import { ConversationEventType } from '@/types/conversation-ws-events'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 
-export const useAdminConversationByIdSocket = (isReady: boolean, conversationId: string) => {
+export const useAdminConversationByIdSocket = (conversationId?: string) => {
   const socketRef = useRef<WebSocket | null>(null)
 
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    if (!isReady) return
+    if (!conversationId) return
 
     const socket = connectConversationSocket(conversationId, false, event => {
       if (event.type === ConversationEventType.MESSAGE_CREATED) {
@@ -26,5 +26,5 @@ export const useAdminConversationByIdSocket = (isReady: boolean, conversationId:
       }
       socketRef.current = null
     }
-  }, [queryClient, isReady])
+  }, [queryClient, conversationId])
 }
