@@ -5,7 +5,6 @@ import {
   VisitorEventType,
 } from '@/types/visitor-ws-events'
 import { useEffect, useRef, useState } from 'react'
-import { useActiveMessagesStore, useVisitorMessagesStore } from './stores/use-messages-store'
 
 export const useVisitorSocket = () => {
   const socketRef = useRef<WebSocket | null>(null)
@@ -15,11 +14,6 @@ export const useVisitorSocket = () => {
   const [pendingConversationId, setPendingConversationId] = useState<string | null>(null)
   const [conversationId, setConversationId] = useState<string | null>(null)
 
-  const visitorActorIdRef = useRef<string | null>(null)
-
-  const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
-  const setActiveMessages = useActiveMessagesStore(state => state.setActiveMessages)
-
   useEffect(() => {
     const socket = connectVisitorSocket(event => {
       switch (event.type) {
@@ -27,31 +21,15 @@ export const useVisitorSocket = () => {
         case VisitorEventType.VISITOR_FOUND:
           setVisitorId(event.payload.visitor_id)
           setVisitorActorId(event.payload.visitor_actor_id)
-          visitorActorIdRef.current = event.payload.visitor_actor_id
           break
 
         case VisitorEventType.PENDING_CONVERSATION_CREATED:
           setPendingConversationId(event.payload.pending_conversation_id)
           break
 
-        case VisitorEventType.CONVERSATION_CREATED: {
-          const actorId = visitorActorIdRef.current
-          const convId = event.payload.conversation_id
-          const now = new Date().toISOString()
-
-          if (actorId)
-            setActiveMessages(
-              visitorMessages.map(v => ({
-                ...v,
-                conversation_id: convId,
-                created_at: now,
-                sender_actor_id: actorId,
-              }))
-            )
-
-          setConversationId(convId)
+        case VisitorEventType.CONVERSATION_CREATED:
+          setConversationId(event.payload.conversation_id)
           break
-        }
 
         case VisitorEventType.ERROR:
           console.log(event.payload.message)
