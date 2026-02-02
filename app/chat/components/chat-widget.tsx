@@ -1,6 +1,7 @@
 'use client'
 
 import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages-store'
+import { useConversationByIdSocket } from '@/hooks/use-conversation-by-id-socket'
 import { useVisitorSocket } from '@/hooks/use-visitor-socket'
 import { handleKeyDown } from '@/lib/utils'
 import { Send } from 'lucide-react'
@@ -16,6 +17,8 @@ export const ChatWidget: React.FC = () => {
   const addVisitorMessage = useVisitorMessagesStore(state => state.addVisitorMessage)
 
   const { visitorActorId, sendPendingMessage, conversationId } = useVisitorSocket()
+
+  useConversationByIdSocket({ isVisitor: true, conversationId })
 
   const handleSend = () => {
     const messageStr = inputText.trim()
