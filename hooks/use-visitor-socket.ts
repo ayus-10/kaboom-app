@@ -77,11 +77,9 @@ export const useVisitorSocket = () => {
     pendingConversationId,
     conversationId,
 
-    sendMessage: (message: string) =>
+    sendPendingMessage: (message: string) =>
       send({
-        type: conversationId
-          ? VisitorClientEventType.SEND_MESSAGE
-          : VisitorClientEventType.SEND_PENDING_MESSAGE,
+        type: VisitorClientEventType.SEND_PENDING_MESSAGE,
         message,
       }),
   }

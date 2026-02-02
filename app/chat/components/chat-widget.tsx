@@ -15,7 +15,7 @@ export const ChatWidget: React.FC = () => {
   const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
   const addVisitorMessage = useVisitorMessagesStore(state => state.addVisitorMessage)
 
-  const { visitorActorId, sendMessage, conversationId } = useVisitorSocket()
+  const { visitorActorId, sendPendingMessage, conversationId } = useVisitorSocket()
 
   const handleSend = () => {
     const messageStr = inputText.trim()
@@ -29,13 +29,13 @@ export const ChatWidget: React.FC = () => {
         sender_actor_id: visitorActorId,
         id: crypto.randomUUID(),
       })
-      sendMessage(messageStr)
+      sendPendingMessage(messageStr)
     } else {
       addVisitorMessage({
         content: messageStr,
         id: crypto.randomUUID(),
       })
-      sendMessage(messageStr)
+      sendPendingMessage(messageStr)
     }
 
     setInputText('')
