@@ -10,6 +10,7 @@ export enum VisitorEventType {
 export enum VisitorClientEventType {
   CREATE = 'create',
   SEND_MESSAGE = 'send-message',
+  SEND_PENDING_MESSAGE = 'send-pending-message',
 }
 
 export type VisitorEvent =
@@ -41,5 +42,9 @@ export type VisitorClientEvent =
     }
   | {
       type: VisitorClientEventType.SEND_MESSAGE
+      message: string
+    }
+  | {
+      type: VisitorClientEventType.SEND_PENDING_MESSAGE
       message: string
     }

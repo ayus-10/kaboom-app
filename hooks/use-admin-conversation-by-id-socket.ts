@@ -11,7 +11,7 @@ export const useAdminConversationByIdSocket = (conversationId?: string) => {
   useEffect(() => {
     if (!conversationId) return
 
-    const socket = connectConversationSocket(conversationId, false, event => {
+    const socket = connectConversationSocket(conversationId, event => {
       if (event.type === ConversationEventType.MESSAGE_CREATED) {
       } else if (event.type === ConversationEventType.STATUS) {
       } else if (event.type === ConversationEventType.TYPING) {
