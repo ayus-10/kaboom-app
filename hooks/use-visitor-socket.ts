@@ -15,6 +15,8 @@ export const useVisitorSocket = () => {
   const [pendingConversationId, setPendingConversationId] = useState<string | null>(null)
   const [conversationId, setConversationId] = useState<string | null>(null)
 
+  const visitorActorIdRef = useRef<string | null>(null)
+
   const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
   const setActiveMessages = useActiveMessagesStore(state => state.setActiveMessages)
 
@@ -25,6 +27,7 @@ export const useVisitorSocket = () => {
         case VisitorEventType.VISITOR_FOUND:
           setVisitorId(event.payload.visitor_id)
           setVisitorActorId(event.payload.visitor_actor_id)
+          visitorActorIdRef.current = event.payload.visitor_actor_id
           break
 
         case VisitorEventType.PENDING_CONVERSATION_CREATED:
@@ -32,19 +35,19 @@ export const useVisitorSocket = () => {
           break
 
         case VisitorEventType.CONVERSATION_CREATED: {
-          if (!visitorActorId) break
-
+          const actorId = visitorActorIdRef.current
           const convId = event.payload.conversation_id
           const now = new Date().toISOString()
 
-          setActiveMessages(
-            visitorMessages.map(v => ({
-              ...v,
-              conversation_id: convId,
-              created_at: now,
-              sender_actor_id: visitorActorId,
-            }))
-          )
+          if (actorId)
+            setActiveMessages(
+              visitorMessages.map(v => ({
+                ...v,
+                conversation_id: convId,
+                created_at: now,
+                sender_actor_id: actorId,
+              }))
+            )
 
           setConversationId(convId)
           break
