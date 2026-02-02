@@ -19,7 +19,10 @@ export const ChatWidget: React.FC = () => {
 
   const { visitorActorId, sendPendingMessage, conversationId } = useVisitorSocket()
 
-  useConversationByIdSocket({ isVisitor: true, conversationId })
+  const { sendMessage, sendTypingStatus } = useConversationByIdSocket({
+    isVisitor: true,
+    conversationId,
+  })
 
   const convertedMessages: ActiveMessage[] = useMemo(() => {
     const now = new Date().toISOString()
@@ -45,7 +48,7 @@ export const ChatWidget: React.FC = () => {
         sender_actor_id: visitorActorId,
         id: crypto.randomUUID(),
       })
-      sendPendingMessage(messageStr)
+      sendMessage(messageStr)
     } else {
       addVisitorMessage({
         content: messageStr,

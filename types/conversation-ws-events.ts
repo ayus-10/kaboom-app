@@ -5,13 +5,18 @@ export enum ConversationEventType {
   ERROR = 'error',
 }
 
+export enum ConversationClientEventType {
+  TYPING = 'typing',
+  SEND_MESSAGE = 'send-message',
+}
+
 export type ConversationEvent =
   | {
       type: ConversationEventType.MESSAGE_CREATED
       payload: {
-        id: string
-        content: string
-        sender_actor_id: string
+        message_id: string
+        message_content: string
+        message_sender_actor_id: string
       }
     }
   | {
@@ -33,4 +38,14 @@ export type ConversationEvent =
       payload: {
         message: string
       }
+    }
+
+export type ConversationClientEvent =
+  | {
+      type: ConversationClientEventType.TYPING
+      is_typing: boolean
+    }
+  | {
+      type: ConversationClientEventType.SEND_MESSAGE
+      message: string
     }
