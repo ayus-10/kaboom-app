@@ -2,6 +2,7 @@
 
 import { useUser } from '@/hooks/queries/use-user'
 import { useConversationStore } from '@/hooks/stores/use-conversation-store'
+import { useMobileScreen } from '@/hooks/use-mobile-view'
 import { ConversationWithLatestMessage } from '@/types/conversation'
 import { ConversationListItem } from './conversation-list-item'
 
@@ -15,8 +16,14 @@ export const ConversationList: React.FC<{
 
   const showConversations = Array.isArray(conversations) && conversations.length > 0 && !!userInfo
 
+  const isMobile = useMobileScreen(1024)
+
   return (
-    <div className="flex w-full lg:min-w-64 lg:w-1/3 flex-col rounded-lg border border-gray-200 bg-white">
+    <div
+      className={`w-full lg:min-w-64 lg:w-1/3 flex-col rounded-lg border border-gray-200 bg-white
+          ${!isMobile ? 'flex ' : !selectedConversation ? 'flex' : 'hidden'}
+        `}
+    >
       <div className="border-b border-gray-100 px-4 py-3">
         <h2 className="text-sm font-semibold text-gray-900">Conversations</h2>
         <p className="mt-1 text-xs text-gray-500">Select a conversation to view and reply</p>
