@@ -6,7 +6,7 @@ import {
 } from '@/types/visitor-ws-events'
 import { useEffect, useRef, useState } from 'react'
 
-export const useVisitorSocket = () => {
+export const useVisitorSocket = (widgetId: string) => {
   const socketRef = useRef<WebSocket | null>(null)
 
   const [visitorId, setVisitorId] = useState<string | null>(null)
@@ -35,7 +35,7 @@ export const useVisitorSocket = () => {
           console.log(event.payload.message)
           break
       }
-    })
+    }, widgetId)
 
     socketRef.current = socket
 

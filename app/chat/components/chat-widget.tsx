@@ -9,7 +9,7 @@ import { Send } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { MessagesList } from './message-list'
 
-export const ChatWidget: React.FC = () => {
+export const ChatWidget: React.FC<{ widgetId: string }> = ({ widgetId }) => {
   const [inputText, setInputText] = useState('')
 
   const activeMessages = useActiveMessagesStore(state => state.activeMessages)
@@ -17,7 +17,7 @@ export const ChatWidget: React.FC = () => {
   const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
   const addVisitorMessage = useVisitorMessagesStore(state => state.addVisitorMessage)
 
-  const { visitorActorId, sendPendingMessage, conversationId } = useVisitorSocket()
+  const { visitorActorId, sendPendingMessage, conversationId } = useVisitorSocket(widgetId)
 
   const { sendMessage, sendTypingStatus } = useConversationByIdSocket({
     isVisitor: true,

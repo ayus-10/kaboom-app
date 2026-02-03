@@ -9,7 +9,7 @@ export const EmbedPageBody: React.FC = () => {
   const widgetId = useOnboardingStore(state => state.widgetId)
   const router = useRouter()
 
-  const embedUrl = `${APP_URL}/chat/${widgetId}`
+  const embedUrl = `${APP_URL}/chat?id=${widgetId}`
 
   const goToDashboard = () => {
     router.push('/admin')
