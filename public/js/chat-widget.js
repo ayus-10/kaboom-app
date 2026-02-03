@@ -3,7 +3,7 @@
   window.__CHAT_WIDGET_LOADED__ = true
 
   const widgetId = document.currentScript.dataset.widgetId
-  const embedUrl = `http://localhost:3000/chat?id=${widgetId}`
+  const embedUrl = `https://kaboom-app.vercel.app/chat?id=${widgetId}`
 
   const button = document.createElement('button')
   button.innerText = '💬'
