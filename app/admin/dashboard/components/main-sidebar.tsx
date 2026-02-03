@@ -55,7 +55,7 @@ export const MainSidebar: React.FC = () => {
     setIsMenuOpen(false)
   }
 
-  if (!activePage) return null
+  if (!activePage || activePage === 'chat') return null
 
   return (
     <>

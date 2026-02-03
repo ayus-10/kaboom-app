@@ -2,11 +2,13 @@
 
 import { useConversationStore } from '@/hooks/stores/use-conversation-store'
 import { Conversation } from '@/types/conversation'
+import { X } from 'lucide-react'
 import { StatusBadge } from './status-badge'
 
 export const ChatSectionHeader: React.FC<{
   selectedConversation: Conversation | null
 }> = ({ selectedConversation }) => {
+  const setSelectedConversation = useConversationStore(state => state.setSelectedConversation)
   const activeClients = useConversationStore(state => state.activeClients)
 
   return (
@@ -23,6 +25,12 @@ export const ChatSectionHeader: React.FC<{
               }
             />
           </div>
+          <button
+            className="bg-gray-100 group p-2 rounded-full cursor-pointer"
+            onClick={() => setSelectedConversation(null)}
+          >
+            <X className="group-hover:rotate-90 ease-in-out duration-200" />
+          </button>
         </div>
       ) : (
         <div>
