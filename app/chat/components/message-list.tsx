@@ -16,7 +16,7 @@ const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorI
   if (!visitorActorId) return null
 
   return (
-    <MessagesContainer>
+    <MessagesContainer scrollTrigger={messages.length}>
       {messages.map((msg, idx) => {
         const isOwnMessage = msg.sender_actor_id === visitorActorId
         const showTimestamp = shouldShowTimestamp(msg, messages[idx - 1])
@@ -36,7 +36,7 @@ const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorI
 
 const PendingMessages: React.FC<PendingMessagesProps> = ({ messages }) => {
   return (
-    <MessagesContainer>
+    <MessagesContainer scrollTrigger={messages.length}>
       {messages.map(msg => (
         <MessageBubble key={msg.id} messageStr={msg.content} isOwnMessage />
       ))}
