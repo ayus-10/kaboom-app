@@ -17,7 +17,7 @@ export const ChatSection: React.FC = () => {
   })
 
   return (
-    <div className="hidden lg:flex w-full lg:w-2/3 flex-col rounded-xl border border-gray-200 bg-white overflow-hidden">
+    <div className="flex w-full flex-col rounded-xl border border-gray-200 bg-white overflow-hidden lg:w-2/3">
       <ChatSectionHeader selectedConversation={selectedConversation} />
       <ChatMessagesWrapper
         isError={isError}
