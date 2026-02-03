@@ -2,22 +2,23 @@
 
 import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages-store'
 import { useConversationByIdSocket } from '@/hooks/use-conversation-by-id-socket'
-import { useVisitorSocket } from '@/hooks/use-visitor-socket'
 import { handleKeyDown } from '@/lib/utils'
 import { Message } from '@/types/message'
 import { Send } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { MessagesList } from './message-list'
 
-export const ChatWidget: React.FC<{ widgetId: string }> = ({ widgetId }) => {
+export const ChatWidget: React.FC<{
+  conversationId: string | null
+  sendPendingMessage: (message: string) => void
+  visitorActorId: string | null
+}> = ({ conversationId, sendPendingMessage, visitorActorId }) => {
   const [inputText, setInputText] = useState('')
 
   const activeMessages = useActiveMessagesStore(state => state.activeMessages)
   const addActiveMessage = useActiveMessagesStore(state => state.addActiveMessage)
   const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
   const addVisitorMessage = useVisitorMessagesStore(state => state.addVisitorMessage)
-
-  const { visitorActorId, sendPendingMessage, conversationId } = useVisitorSocket(widgetId)
 
   const { sendMessage, sendTypingStatus } = useConversationByIdSocket({
     isVisitor: true,

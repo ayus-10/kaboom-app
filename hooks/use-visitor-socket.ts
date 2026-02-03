@@ -6,7 +6,7 @@ import {
 } from '@/types/visitor-ws-events'
 import { useEffect, useRef, useState } from 'react'
 
-export const useVisitorSocket = (widgetId: string) => {
+export const useVisitorSocket = (widgetId: string | null) => {
   const socketRef = useRef<WebSocket | null>(null)
 
   const [visitorId, setVisitorId] = useState<string | null>(null)
@@ -15,6 +15,8 @@ export const useVisitorSocket = (widgetId: string) => {
   const [conversationId, setConversationId] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!widgetId) return
+
     const socket = connectVisitorSocket(event => {
       switch (event.type) {
         case VisitorEventType.VISITOR_CREATED:
@@ -43,7 +45,7 @@ export const useVisitorSocket = (widgetId: string) => {
       socket.close()
       socketRef.current = null
     }
-  }, [])
+  }, [widgetId])
 
   const send = (event: VisitorClientEvent) => {
     const socket = socketRef.current
