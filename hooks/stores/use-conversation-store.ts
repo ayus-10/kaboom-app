@@ -14,7 +14,11 @@ export const useConversationStore = create<ConversationStore>(set => ({
   activeClients: [],
   setSelectedConversation: conversation => set({ selectedConversation: conversation }),
   addActiveClient: clientId =>
-    set(state => ({ activeClients: [...state.activeClients, clientId] })),
+    set(state => ({
+      activeClients: state.activeClients.includes(clientId)
+        ? state.activeClients
+        : [...state.activeClients, clientId],
+    })),
   removeActiveClient: clientId =>
     set(state => ({ activeClients: state.activeClients.filter(c => c !== clientId) })),
 }))

@@ -77,7 +77,15 @@ export const useConversationByIdSocket = (params: ConversationByIdSocketParams) 
       }
       socketRef.current = null
     }
-  }, [queryClient, conversationId])
+  }, [
+    queryClient,
+    conversationId,
+    addActiveClient,
+    addActiveMessage,
+    removeActiveClient,
+    isVisitor,
+    params,
+  ])
 
   const send = (event: ConversationClientEvent) => {
     const socket = socketRef.current
