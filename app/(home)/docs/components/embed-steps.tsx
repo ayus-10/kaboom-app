@@ -1,11 +1,10 @@
 'use client'
 
-import { Check, Copy } from 'lucide-react'
 import { useState } from 'react'
 
 export const EmbedSteps: React.FC = () => {
   const [copied, setCopied] = useState(false)
-  const embedCode = `<script src="http://localhost:3000/js/chat-widget.js" data-widget-id="abc123"></script>`
+  const embedCode = `<script src="${process.env.NEXT_PUBLIC_APP_URL}/js/chat-widget.js" data-widget-id="abc123"></script>`
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(embedCode)
@@ -28,21 +27,24 @@ export const EmbedSteps: React.FC = () => {
             look like this:
           </p>
 
-          <div className="relative">
-            <pre className="bg-gray-900 text-gray-100 p-4 sm:p-5 rounded-lg overflow-x-auto text-xs sm:text-sm max-w-full">
-              <code className="break-all whitespace-pre-wrap">{embedCode}</code>
-            </pre>
-            <button
-              onClick={copyToClipboard}
-              aria-label="Copy embed code"
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 rounded-md bg-gray-800 p-1.5 sm:p-2 text-gray-400 hover:bg-gray-700 hover:text-white transition"
-            >
-              {copied ? (
-                <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
-              ) : (
-                <Copy className="h-4 w-4 sm:h-5 sm:w-5" />
-              )}
-            </button>
+          <div className="relative w-full">
+            <div className="bg-gray-900 text-white p-4 rounded-md">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-gray-400 text-sm">Code:</span>
+                <button
+                  onClick={copyToClipboard}
+                  aria-label="Copy embed code"
+                  className="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1 rounded-md text-sm transition"
+                >
+                  {copied ? 'Copied' : 'Copy'}
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                <pre className="text-gray-300 text-sm font-mono">
+                  <code className="whitespace-pre-wrap break-all">{embedCode}</code>
+                </pre>
+              </div>
+            </div>
           </div>
         </div>
       </div>
