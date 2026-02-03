@@ -1,4 +1,4 @@
-import { ActiveMessage } from '@/types/message'
+import { Message } from '@/types/message'
 import { MS_PER_MINUTE, TIMESTAMP_GAP_MINUTES } from './constants'
 
 export const formatTimestamp = (timestamp: string) => {
@@ -27,7 +27,7 @@ export const handleKeyDown = (
   }
 }
 
-export const shouldShowTimestamp = (current: ActiveMessage, prev?: ActiveMessage) => {
+export const shouldShowTimestamp = (current: Message, prev?: Message) => {
   if (!prev) return true
   return (
     (new Date(current.created_at).getTime() - new Date(prev.created_at).getTime()) / MS_PER_MINUTE >

@@ -1,10 +1,10 @@
 import { shouldShowTimestamp } from '@/lib/utils'
-import { ActiveMessage, VisitorMessage } from '@/types/message'
+import { Message, VisitorMessage } from '@/types/message'
 import { MessageBubble } from './message-bubble'
 import { MessagesContainer } from './message-container'
 
 type ActiveMessagesProps = {
-  messages: ActiveMessage[]
+  messages: Message[]
   visitorActorId: string | null
 }
 

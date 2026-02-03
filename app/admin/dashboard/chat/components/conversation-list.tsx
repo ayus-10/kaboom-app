@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/queries/use-user'
-import { useSelectedConversationStore } from '@/hooks/stores/use-conversation-store'
+import { useConversationStore } from '@/hooks/stores/use-conversation-store'
 import { ConversationWithLatestMessage } from '@/types/conversation'
 import { ConversationListItem } from './conversation-list-item'
 
@@ -10,10 +10,8 @@ export const ConversationList: React.FC<{
 }> = ({ conversations }) => {
   const { data: userInfo } = useUser()
 
-  const selectedConversation = useSelectedConversationStore(state => state.selectedConversation)
-  const setSelectedConversation = useSelectedConversationStore(
-    state => state.setSelectedConversation
-  )
+  const selectedConversation = useConversationStore(state => state.selectedConversation)
+  const setSelectedConversation = useConversationStore(state => state.setSelectedConversation)
 
   const showConversations = Array.isArray(conversations) && conversations.length > 0 && !!userInfo
 

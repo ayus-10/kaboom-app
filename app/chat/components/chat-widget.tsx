@@ -4,7 +4,7 @@ import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/
 import { useConversationByIdSocket } from '@/hooks/use-conversation-by-id-socket'
 import { useVisitorSocket } from '@/hooks/use-visitor-socket'
 import { handleKeyDown } from '@/lib/utils'
-import { ActiveMessage } from '@/types/message'
+import { Message } from '@/types/message'
 import { Send } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { MessagesList } from './message-list'
@@ -24,7 +24,7 @@ export const ChatWidget: React.FC = () => {
     conversationId,
   })
 
-  const convertedMessages: ActiveMessage[] = useMemo(() => {
+  const convertedMessages: Message[] = useMemo(() => {
     const now = new Date().toISOString()
     if (visitorActorId && conversationId)
       return visitorMessages.map(v => ({
