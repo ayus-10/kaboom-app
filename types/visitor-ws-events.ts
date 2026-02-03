@@ -4,11 +4,12 @@ export enum VisitorEventType {
   VISITOR_FOUND = 'visitor.found',
   PENDING_CONVERSATION_CREATED = 'pending_conversation.created',
   PENDING_MESSAGE_CREATED = 'pending_message.created',
+  CONVERSATION_CREATED = 'conversation.created',
 }
 
 export enum VisitorClientEventType {
   CREATE = 'create',
-  SEND_MESSAGE = 'send-message',
+  SEND_PENDING_MESSAGE = 'send-pending-message',
 }
 
 export type VisitorEvent =
@@ -29,12 +30,16 @@ export type VisitorEvent =
       type: VisitorEventType.PENDING_MESSAGE_CREATED
       payload: { pending_message_id: string }
     }
+  | {
+      type: VisitorEventType.CONVERSATION_CREATED
+      payload: { conversation_id: string }
+    }
 
 export type VisitorClientEvent =
   | {
       type: VisitorClientEventType.CREATE
     }
   | {
-      type: VisitorClientEventType.SEND_MESSAGE
+      type: VisitorClientEventType.SEND_PENDING_MESSAGE
       message: string
     }

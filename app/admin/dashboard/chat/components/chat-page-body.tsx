@@ -27,7 +27,7 @@ export const ChatPageBody: React.FC = () => {
   }
 
   return (
-    <div className="flex h-[calc(100vh-9rem)] gap-6">
+    <div className="flex h-[calc(100vh-10rem)] gap-6">
       <ConversationList conversations={conversations} />
       <ChatSection />
     </div>

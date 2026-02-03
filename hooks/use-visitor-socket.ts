@@ -6,15 +6,17 @@ import {
 } from '@/types/visitor-ws-events'
 import { useEffect, useRef, useState } from 'react'
 
-export const useVisitorSocket = () => {
+export const useVisitorSocket = (widgetId: string | null) => {
   const socketRef = useRef<WebSocket | null>(null)
 
   const [visitorId, setVisitorId] = useState<string | null>(null)
   const [visitorActorId, setVisitorActorId] = useState<string | null>(null)
   const [pendingConversationId, setPendingConversationId] = useState<string | null>(null)
-  const [conversationId, _setConversationId] = useState<string | null>(null) // TODO: set when admin accepts a pending conversation
+  const [conversationId, setConversationId] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!widgetId) return
+
     const socket = connectVisitorSocket(event => {
       switch (event.type) {
         case VisitorEventType.VISITOR_CREATED:
@@ -27,11 +29,15 @@ export const useVisitorSocket = () => {
           setPendingConversationId(event.payload.pending_conversation_id)
           break
 
+        case VisitorEventType.CONVERSATION_CREATED:
+          setConversationId(event.payload.conversation_id)
+          break
+
         case VisitorEventType.ERROR:
           console.log(event.payload.message)
           break
       }
-    })
+    }, widgetId)
 
     socketRef.current = socket
 
@@ -39,7 +45,7 @@ export const useVisitorSocket = () => {
       socket.close()
       socketRef.current = null
     }
-  }, [])
+  }, [widgetId])
 
   const send = (event: VisitorClientEvent) => {
     const socket = socketRef.current
@@ -54,9 +60,9 @@ export const useVisitorSocket = () => {
     pendingConversationId,
     conversationId,
 
-    sendMessage: (message: string) =>
+    sendPendingMessage: (message: string) =>
       send({
-        type: VisitorClientEventType.SEND_MESSAGE,
+        type: VisitorClientEventType.SEND_PENDING_MESSAGE,
         message,
       }),
   }

@@ -3,8 +3,8 @@ import { API_BASE_URL } from './constants'
 
 export const connectConversationSocket = (
   conversationId: string,
-  isVisitor: boolean,
-  onMessage: (event: ConversationEvent) => void
+  onMessage: (event: ConversationEvent) => void,
+  isVisitor: boolean
 ) => {
   const url = new URL(`/ws/conversation/${conversationId}`, API_BASE_URL)
 

@@ -1,10 +1,10 @@
-import { MS_PER_MINUTE, TIMESTAMP_GAP_MINUTES } from '@/lib/constants'
-import { ActiveMessage, VisitorMessage } from '@/types/message'
+import { shouldShowTimestamp } from '@/lib/utils'
+import { Message, VisitorMessage } from '@/types/message'
 import { MessageBubble } from './message-bubble'
 import { MessagesContainer } from './message-container'
 
 type ActiveMessagesProps = {
-  messages: ActiveMessage[]
+  messages: Message[]
   visitorActorId: string | null
 }
 
@@ -13,19 +13,10 @@ type PendingMessagesProps = {
 }
 
 const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorId }) => {
-  const shouldShowTimestamp = (current: ActiveMessage, prev?: ActiveMessage) => {
-    if (!prev) return true
-    return (
-      (new Date(current.created_at).getTime() - new Date(prev.created_at).getTime()) /
-        MS_PER_MINUTE >
-      TIMESTAMP_GAP_MINUTES
-    )
-  }
-
   if (!visitorActorId) return null
 
   return (
-    <MessagesContainer>
+    <MessagesContainer scrollTrigger={messages.length}>
       {messages.map((msg, idx) => {
         const isOwnMessage = msg.sender_actor_id === visitorActorId
         const showTimestamp = shouldShowTimestamp(msg, messages[idx - 1])
@@ -45,7 +36,7 @@ const ActiveMessages: React.FC<ActiveMessagesProps> = ({ messages, visitorActorI
 
 const PendingMessages: React.FC<PendingMessagesProps> = ({ messages }) => {
   return (
-    <MessagesContainer>
+    <MessagesContainer scrollTrigger={messages.length}>
       {messages.map(msg => (
         <MessageBubble key={msg.id} messageStr={msg.content} isOwnMessage />
       ))}

@@ -81,10 +81,10 @@ export const EmbedSteps: React.FC = () => {
           </div>
         </div>
         <div className="flex-1">
-          <h3 className="text-xl font-semibold text-gray-900 mb-3">You're done!</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-3">You&apos;re done!</h3>
           <p className="text-gray-700">
-            That's it! The chat widget will automatically appear on your website. Visit your site to
-            see it in action and start chatting with your visitors.
+            That&apos;s it! The chat widget will automatically appear on your website. Visit your
+            site to see it in action and start chatting with your visitors.
           </p>
         </div>
       </div>

@@ -1,13 +1,18 @@
 'use client'
 
 import { useActiveMessagesStore, useVisitorMessagesStore } from '@/hooks/stores/use-messages-store'
-import { useVisitorSocket } from '@/hooks/use-visitor-socket'
+import { useConversationByIdSocket } from '@/hooks/use-conversation-by-id-socket'
 import { handleKeyDown } from '@/lib/utils'
+import { Message } from '@/types/message'
 import { Send } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { MessagesList } from './message-list'
 
-export const ChatWidget: React.FC = () => {
+export const ChatWidget: React.FC<{
+  conversationId: string | null
+  sendPendingMessage: (message: string) => void
+  visitorActorId: string | null
+}> = ({ conversationId, sendPendingMessage, visitorActorId }) => {
   const [inputText, setInputText] = useState('')
 
   const activeMessages = useActiveMessagesStore(state => state.activeMessages)
@@ -15,7 +20,23 @@ export const ChatWidget: React.FC = () => {
   const visitorMessages = useVisitorMessagesStore(state => state.visitorMessages)
   const addVisitorMessage = useVisitorMessagesStore(state => state.addVisitorMessage)
 
-  const { visitorActorId, sendMessage, conversationId } = useVisitorSocket()
+  const { sendMessage, sendTypingStatus } = useConversationByIdSocket({
+    isVisitor: true,
+    conversationId,
+    visitorActorId,
+  })
+
+  const convertedMessages: Message[] = useMemo(() => {
+    const now = new Date().toISOString()
+    if (visitorActorId && conversationId)
+      return visitorMessages.map(v => ({
+        ...v,
+        conversation_id: conversationId,
+        created_at: now,
+        sender_actor_id: visitorActorId,
+      }))
+    return []
+  }, [visitorMessages, conversationId, visitorActorId])
 
   const handleSend = () => {
     const messageStr = inputText.trim()
@@ -28,6 +49,7 @@ export const ChatWidget: React.FC = () => {
         created_at: new Date().toISOString(),
         sender_actor_id: visitorActorId,
         id: crypto.randomUUID(),
+        isSent: false,
       })
       sendMessage(messageStr)
     } else {
@@ -35,7 +57,7 @@ export const ChatWidget: React.FC = () => {
         content: messageStr,
         id: crypto.randomUUID(),
       })
-      sendMessage(messageStr)
+      sendPendingMessage(messageStr)
     }
 
     setInputText('')
@@ -49,7 +71,11 @@ export const ChatWidget: React.FC = () => {
       </div>
 
       {conversationId ? (
-        <MessagesList type="ACTIVE" messages={activeMessages} visitorActorId={visitorActorId} />
+        <MessagesList
+          type="ACTIVE"
+          messages={[...convertedMessages, ...activeMessages]}
+          visitorActorId={visitorActorId}
+        />
       ) : (
         <MessagesList type="PENDING" messages={visitorMessages} />
       )}

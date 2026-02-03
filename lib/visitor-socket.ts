@@ -6,10 +6,14 @@ import {
 } from '@/types/visitor-ws-events'
 import { API_BASE_URL } from './constants'
 
-export const connectVisitorSocket = (onMessage: (event: VisitorEvent) => void) => {
+export const connectVisitorSocket = (
+  onMessage: (event: VisitorEvent) => void,
+  widgetId: string
+) => {
   const visitorId = localStorage.getItem('chat_visitor_id')
 
   const url = new URL('/ws/visitor', API_BASE_URL)
+  url.searchParams.set('widget_id', widgetId)
   if (visitorId) {
     url.searchParams.set('visitor_id', visitorId)
   }

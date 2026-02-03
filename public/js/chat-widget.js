@@ -1,11 +1,9 @@
-// <script src="http://localhost:3000/js/chat-widget.js" data-widget-id="abc123"></script>
-
 ;(function () {
   if (window.__CHAT_WIDGET_LOADED__) return
   window.__CHAT_WIDGET_LOADED__ = true
 
   const widgetId = document.currentScript.dataset.widgetId
-  const embedUrl = `http://localhost:3000/chat`
+  const embedUrl = `http://localhost:3000/chat?id=${widgetId}`
 
   const button = document.createElement('button')
   button.innerText = '💬'
