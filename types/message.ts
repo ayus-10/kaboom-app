@@ -16,3 +16,7 @@ export interface Message {
   sender_actor_id: string
   created_at: string
 }
+
+export interface ActiveMessage extends Message {
+  isSent?: boolean
+}

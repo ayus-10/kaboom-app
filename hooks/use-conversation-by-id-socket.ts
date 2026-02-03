@@ -10,13 +10,20 @@ import { useEffect, useRef } from 'react'
 import { useConversationStore } from './stores/use-conversation-store'
 import { useActiveMessagesStore } from './stores/use-messages-store'
 
-export const useConversationByIdSocket = ({
-  isVisitor,
-  conversationId,
-}: {
-  isVisitor: boolean
-  conversationId?: string | null
-}) => {
+type ConversationByIdSocketParams =
+  | {
+      conversationId?: string | null
+      isVisitor: false
+    }
+  | {
+      conversationId?: string | null
+      isVisitor: true
+      visitorActorId: string | null
+    }
+
+export const useConversationByIdSocket = (params: ConversationByIdSocketParams) => {
+  const { conversationId, isVisitor } = params
+
   const socketRef = useRef<WebSocket | null>(null)
 
   const queryClient = useQueryClient()
@@ -40,7 +47,9 @@ export const useConversationByIdSocket = ({
             conversation_id: conversationId,
           }
           if (isVisitor) {
-            addActiveMessage(newMsg)
+            if (newMsg.sender_actor_id !== params.visitorActorId) {
+              addActiveMessage(newMsg)
+            }
           } else {
             queryClient.setQueryData<Message[]>(['messages', conversationId], prev => {
               if (!prev) return prev

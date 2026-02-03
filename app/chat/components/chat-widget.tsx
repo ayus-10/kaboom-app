@@ -22,6 +22,7 @@ export const ChatWidget: React.FC = () => {
   const { sendMessage, sendTypingStatus } = useConversationByIdSocket({
     isVisitor: true,
     conversationId,
+    visitorActorId,
   })
 
   const convertedMessages: Message[] = useMemo(() => {
@@ -47,6 +48,7 @@ export const ChatWidget: React.FC = () => {
         created_at: new Date().toISOString(),
         sender_actor_id: visitorActorId,
         id: crypto.randomUUID(),
+        isSent: false,
       })
       sendMessage(messageStr)
     } else {

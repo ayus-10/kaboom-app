@@ -1,10 +1,10 @@
-import { Message, VisitorMessage } from '@/types/message'
+import { ActiveMessage, VisitorMessage } from '@/types/message'
 import { create } from 'zustand'
 
 interface ActiveMessagesStore {
-  activeMessages: Message[]
-  setActiveMessages: (messages: Message[]) => void
-  addActiveMessage: (message: Message) => void
+  activeMessages: ActiveMessage[]
+  setActiveMessages: (messages: ActiveMessage[]) => void
+  addActiveMessage: (message: ActiveMessage) => void
   clearActiveMessages: () => void
 }
 
